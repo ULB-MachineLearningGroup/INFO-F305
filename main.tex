@@ -1,0 +1,167 @@
+\documentclass[11pt, a4paper, openany]{book}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{csquotes}
+\usepackage[style=authoryear]{biblatex}
+\usepackage{graphicx}
+\usepackage{amsmath, amsfonts}
+\usepackage[most]{tcolorbox}
+\usepackage[nomarginpar, left=3cm, right=3cm, top=3.5cm, bottom=4cm]{geometry}
+%\usepackage[nomarginpar, left=0.5cm, right=0.5cm, top=0.5cm, bottom=0.5cm]{geometry}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{xparse}
+\usepackage{svg}
+\usepackage{setspace}
+\usepackage{hyperref}
+\usepackage{palatino}
+\usepackage{minted}
+\usemintedstyle{pastie}
+\setminted{breaklines, linenos, frame=lines, framesep=2mm, fontsize=\footnotesize}
+
+\AtBeginDocument{\def\labelitemi{$\bullet$}}
+
+\newcommand\dd{\mathrm d}
+\newcommand\od[2]{\frac {\dd{#1}}{\dd{#2}}}
+\newcommand\nod[3]{\frac {\dd^{#3}{#1}}{\dd{#2}^{#3}}}
+\newcommand\pd[2]{\frac {\partial {#1}}{\partial {#2}}}
+\DeclareMathOperator\Tr{Tr}
+\newcommand\robin[1]{{\textcolor{teal}{Robin~: #1}}}
+%\renewcommand\robin[1]{}  % Décommenter pour masquer les remarques
+
+\setstretch{1.2}
+%\setstretch{0.7}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codered}{rgb}{0.75,0,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codeblue}{rgb}{0,0.5,0.92}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.95}
+\definecolor{definitionblue}{rgb}{0.34, 0.7, 1}
+\definecolor{theoremred}{rgb}{0.7, 0.0, 0.3}
+\definecolor{lemmagreen}{rgb}{0.0, 0.7, 0.3}
+\definecolor{exercisepurple}{rgb}{0.5, 0.0, 0.5}
+
+\NewDocumentCommand{\codeword}{v}{\texttt{\textcolor{codered}{#1}}}
+
+\tcbset {
+  base/.style={
+    arc=0mm, 
+    bottomtitle=0.5mm,
+    boxrule=0mm,
+    colbacktitle=black!10!white, 
+    coltitle=black, 
+    fonttitle=\bfseries, 
+    left=2.5mm,
+    leftrule=1mm,
+    right=3.5mm,
+    title={#1},
+    toptitle=0.75mm, 
+  }
+}
+
+\newtcolorbox{definitionbox}[1]{
+  colframe=definitionblue, 
+  base={#1}
+}
+
+\newtcolorbox{theorembox}[1]{
+  colframe=theoremred, 
+  base={#1}
+}
+
+\newtcolorbox{lemmabox}[1]{
+  colframe=lemmagreen, 
+  base={#1}
+}
+
+\newtcolorbox{exercisebox}[1]{
+  colframe=exercisepurple, 
+  base={#1}
+}
+
+\newtcolorbox{subbox}[1]{
+  colframe=black!30!white,
+  base={#1}
+}
+
+\newenvironment{definition}[1]{
+    \begin{definitionbox}{#1}
+}{
+    \end{definitionbox}
+}
+
+\newenvironment{theorem}[1]{
+    \begin{theorembox}{#1}
+}{
+    \end{theorembox}
+}
+
+\newenvironment{lemma}[1]{
+    \begin{lemmabox}{#1}
+}{
+    \end{lemmabox}
+}
+
+\newenvironment{exercise}[1]{
+    \begin{exercisebox}{#1}
+}{
+    \end{exercisebox}
+}
+
+\let\oldquote\quote
+\let\endoldquote\endquote
+\renewenvironment{quote}[2][]
+  {\if\relax\detokenize{#1}\relax
+     \def\quoteauthor{#2}%
+   \else
+     \def\quoteauthor{#2~---~#1}%
+   \fi
+   \oldquote}
+  {\par\nobreak\smallskip\hfill(\quoteauthor)%
+   \endoldquote\addvspace{\bigskipamount}}
+
+\newcommand{\hide}[1]{}
+
+\title{Syllabus d’exercices INFO-F-305\\Support au cours de Modélisation et Simulation}
+\author{Pascal \textsc{Tribel}\\ %, Abel \textsc{Laval}\\
+%Eythan \textsc{Levy}, 
+Jacopo \textsc{De Stefani}\\
+%Liran \textsc{Lerman}, 
+Yannick \textsc{Molinghen}\\ 
+Gianluca \textsc{Bontempi}\\
+\\
+Département d’Informatique, Faculté des Sciences\\
+Université Libre de Bruxelles, ULB}
+\date{\today}
+
+\addbibresource{bibliographie.bib}
+
+\begin{document}
+
+\maketitle
+
+\pagenumbering{roman}
+\input{quotes.tex}
+\input{avant_propos.tex}
+
+\pagenumbering{arabic}
+\tableofcontents
+
+\input{notation_sheet.tex}
+\input{introduction.tex}
+\input{equations_differentielles.tex}
+\input{portrait_phases_lineaires.tex}
+\input{portrait_phases_non_lineaires.tex}
+\input{machine.tex}
+\input{equations_aux_differences.tex}
+\input{evenements_discrets.tex}
+\input{conclusion.tex}
+
+\newpage
+\listoffigures
+\newpage
+\printbibliography
+
+\end{document}

@@ -1,0 +1,652 @@
+\chapter{Équations différentielles}\label{chap:equadiff}
+    \section{Introduction}
+        Les \textit{équations} sont au cœur des mathématiques et de la modélisation scientifique, représentant des relations entre des valeurs variables appelées \textit{inconnues}. Résoudre une équation signifie trouver les valeurs des variables qui rendent cette relation vraie. Ces valeurs sont appelées \textit{solutions}. La résolution d’équations simples, comme celles que l’on rencontre dans des contextes arithmétiques et géométriques élémentaires, fournit les bases pour aborder des systèmes plus complexes. Voici quelques exemples d'équations où $x \in \mathbb{C}$:
+        \begin{equation}
+            \begin{split}
+                x-1&=0\\
+                x^2-1&=0\\
+                x^2+1&=0\\
+                x^2+x+1&=0\\
+                \sin(x)+x&=1
+            \end{split}
+        \end{equation}
+        
+        Notez que dans tous les cas ci-dessus, les variables sont numériques et les solutions sont une ou plusieurs valeurs complexes ($x \in  \mathbb{C}$). Rappelons aussi que la partie réelle et la partie imaginaire peut tout à fait être nulle. Néanmoins, l'espace dans lequel ces équations trouvent leurs solutions est un espace de nombres. Si l'on étend l'espace des solutions à l'espace des fonctions, alors on obtient d'autres types d'équations, appelées \textit{équations fonctionnelles}. Par exemple, l'\textit{équation de Cauchy}
+        \begin{equation}
+            f(x + y) = f(x) + f(y)
+        \end{equation}
+        est une équation fonctionnelle. Plus encore, si l'équation exprime une variable fonctionnelle en fonction de ses dérivées, on parle d'\textbf{équation différentielle}.
+
+        Pour rappel, la dérivée d'une fonction $f$ en un point $t = a$ mesure la variation instantanée de $f$ autour de ce point. Formellement, la dérivée $\od {f}{t}$ est définie comme la limite du taux de variation de $f$ lorsque l'incrément de l'argument tend vers zéro. Mathématiquement, cela s'exprime par
+        \begin{equation}
+            \dot{f}(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}
+        \end{equation}
+        à condition que cette limite existe. On voit apparaître dans le membre de droite une différence: c'est de cette différence que viennent les notions de \textit{différentiabilité} et d'\textit{équation différentielle}.
+        
+        Le fondement mathématique de la dérivée repose sur la notion de continuité et de limites. Si une fonction $f$ est continue autour de $t = a$ et que la limite du taux de variation ci-dessus existe, alors $f$ est dite dérivable en $a$. La dérivabilité implique que la fonction soit \textit{lisse}, c'est-à-dire que la fonction ne présente pas de points de discontinuité ou de \textit{sauts} dans le voisinage de $a$. La dérivée est un \textit{opérateur linéaire}, agissant comme une transformation de l'espace des fonctions. Lorsqu'elle est composée avec elle-même, par exemple, pour obtenir la dérivée seconde, elle permet d'étudier extensivement le comportement d'une fonction.
+        
+        Certaines dérivées doivent être connues (bien qu'elles puissent toutes être retrouvées depuis l'équation présentée). Par exemple, la dérivée de la fonction constante $f(t) = c$, où $c$ est une constante, est nulle : $\od ft(t) = 0$ pour tout $t$. De même, pour la fonction linéaire $f(t) = at + b$, où $a$ et $b$ sont des constantes, la dérivée est simplement $\od ft(t) = a$ pour tout $t$. Ces exemples illustrent comment la dérivée capture l'inclinaison de la fonction : dans le cas constant, l'inclinaison est nulle, tandis que dans le cas linéaire, elle est constante.
+        
+        Enfin, d'autres fonctions classiques ont des dérivées bien connues. Par exemple, pour une fonction puissance $f(t) = t^n$, où $n \in \mathbb R^*$, la dérivée est donnée par la formule $\od ft = nt^{n-1}$. Pour la fonction exponentielle $f(t) = e^t$, la dérivée\footnote{Et, plus précisément, c'est de cette manière que la grandeur $e$ est définie.} est $\od ft = e^t$. Notons encore les dérivées de fonction trigonométriques, $\od {}t\sin(t) = \cos(t)$ et $\od {}t\cos(t) = -\sin(t)$.
+
+        Il est important de bien comprendre que la notion de dérivée traduit mathématiquement la notion de \textit{variation} de la fonction. Dans le cas des équations différentielles, l'idée sous-jacente est d'exprimer une fonction comme une transformation des fonctions exprimant sa variation. C'est ce principe qui sous-tend souvent l'utilisation d'équations différentielles dans des modèles.
+        
+        Les équations différentielles occupent une place fondamentale dans la modélisation et l’analyse des systèmes dynamiques, qu'ils soient temporels ou définis par d'autres variables indépendantes. Leur importance dans la prévision de phénomènes complexes s’étend sur plusieurs siècles. Une réflexion sur leur développement nous plonge dans le contexte scientifique du XVIIe siècle, lorsque des observateurs, fascinés par la régularité des mouvements planétaires, cherchaient à formaliser leurs observations. C’est dans ce cadre que des pionniers comme Newton et Leibniz ont introduit le calcul différentiel (\cite{Edwards1979}), fournissant ainsi les fondements nécessaires au développement des équations différentielles. Par exemple, Newton démontra que les trajectoires des planètes peuvent être modélisées par des équations différentielles reliant leurs positions, leurs vitesses et les forces gravitationnelles agissant sur elles\footnote{Notons que la notion de force gravitationnelle a été révisée et redéfinie comme une \textit{pseudo-force} dans le cadre de la relativité d'Einstein.}.
+    
+        Une équation différentielle est une relation mathématique qui relie une fonction inconnue, par exemple, la position d'une planète, la concentration d'un médicament dans le sang ou la taille d'une population dans un écosystème\footnote{Voir la notion de \textit{système de Lotka-Volterra}, présentée dans le cours théorique (\cite{infof305}).}, à ses dérivées, c’est-à-dire aux changements infinitésimaux de cette fonction. Autrement dit, elle nous aide à comprendre non seulement où se trouve un objet à un instant donné, mais comment il bouge, croît ou décroît dans le temps. Pour prendre un exemple, pensons à la loi du refroidissement de Newton, qui décrit la manière dont un objet chaud se refroidit dans une pièce: plus la température de l’objet est éloignée de celle de la pièce, plus il se refroidit rapidement (\cite{Newton1701}). Cette loi peut se traduire par une équation différentielle qui décrit la vitesse de variation de la température de l’objet en fonction de la différence de température avec l'environnement.
+        
+        Au cours de ce chapitre, nous allons nous immerger dans l'univers complexe des équations différentielles. Nous commencerons par poser les fondations, en définissant ce qu'est une équation différentielle et en discutant de ses propriétés essentielles. En particulier, nous nous concentrerons sur certaines équations différentielles, appelées \textit{ordinaires}, ou \textit{EDO}, qui n’ont qu’une seule variable indépendante (souvent le temps). Il en existe d’autres types, par exemple, les équations différentielles appelées \textit{partielles}, ou \textit{EDP}, qui impliquent plusieurs variables indépendantes. Souvent, les \textit{EDO} permettent de décrire des phénomènes dont la variation ne dépend que du temps, là où les \textit{EDP} décrivent des évolutions qui dépendent de plusieurs paramètres: par exemple, de la position.
+        
+        Ensuite, nous aborderons certaines méthodes de résolution. Il n’existe pas de \textit{méthode unique} qui puisse s'appliquer à toutes les équations différentielles. Chaque type d'équation doit être spécifiquement étudié pour être résolu.
+        
+        Au-delà de leur praticité, les équations différentielles sont une porte d'entrée vers une modélisation des phénomènes observables confortable à manipuler: elles décrivent le monde visible par un langage mathématique élégant. En explorant ces concepts, nous espérons que vous découvrirez non seulement les outils pratiques pour résoudre des problèmes, mais aussi la beauté de la manière dont les mathématiques peuvent capturer l’essence des changements et de l’évolution. Ce chapitre n'est pas conçu pour couvrir toutes les subtilités de la résolution d'équations différentielles, mais pour vous donner les bases essentielles et l'envie d'aller plus loin dans ce domaine captivant. L'étudiant·e qui recherche une ressource plus avancée sur le sujet peut se référer à \cite{Bangerezako2006}.
+
+    \section{Rappels théoriques}
+        \subsection{Définitions de base}
+        Avant d'approfondir l'analyse et la résolution des équations différentielles, il est essentiel de clarifier quelques notions fondamentales. Ces définitions constituent les bases théoriques permettant de mieux appréhender les différents types d'équations et d'aborder les techniques de résolution qui leur sont associées. 
+        
+        \begin{definition}{Équation différentielle ordinaire (EDO) d'ordre $n$}\label{def:eqdiff}
+            Une \textit{équation différentielle ordinaire d'ordre $n$} est une équation impliquant une ou plusieurs dérivées d'une fonction inconnue $y$ par rapport à une variable indépendante $t$. Elle est définie par:
+            \begin{equation}
+                F(x, y, \dot{y}, \ldots, y^{(n)})=0
+            \end{equation}
+            où $y=y(t)$ est la fonction inconnue, $\dot{y}, y^{(2)}, \ldots, y^{(n)}$ désignent les dérivées successives de $y$ par rapport à $t$, et $n$ est l'ordre de la dérivée la plus élevée présente dans l'équation. L'ordre $n$ de l'équation est donc défini par le plus grand nombre de dérivations appliquées à la fonction $y$ qui interviennent dans $F$.
+        \end{definition}
+        
+        Quelques exemples permettent d’illustrer cette notion d’ordre:
+        \begin{itemize}
+            \item Une EDO d'ordre 1 (ou EDO de premier ordre) peut s'écrire: \robin{C'est trompeur~: on pourrait croire en lisant ça que toute EDO d'ordre 1 a cette forme-là, mais $\dot y \cdot y - y^2=c$ est un contre-exemple}
+            \begin{equation}
+                \dot{y} + p(t)y=q(t)
+            \end{equation}
+            où $p(t)$ et $q(t)$ sont des fonctions connues de la variable $t$. Les équations de ce type apparaissent dans de nombreux contextes, comme la modélisation de la vitesse de refroidissement d'un objet ou la croissance d'une population.
+            
+            \item Une équation d'ordre 2 (ou EDO de second ordre) prend une forme plus complexe:
+            \begin{equation}
+                \ddot{y} + p(t)\dot{y} + q(t)y=r(t)
+            \end{equation}
+            où $\ddot{y}$ représente la dérivée seconde de $y$ par rapport à $t$. L'ordre de l'équation est particulièrement significatif, car il détermine souvent la complexité du comportement dynamique du système décrit (bien que la notion de non-linéarité, que nous verrons plus tard, joue aussi un rôle \robin{LODE d'ordre $n$ revient à LODE d'ordre 1, ce qui confirme que ordre 1 est plus facile que ordre $n \geq 2$}).
+        \end{itemize}
+        
+        \begin{definition}{Équation différentielle ordinaire d'ordre $n$ sous forme résolue}\label{def:resolved_form}
+            Lorsqu'une équation différentielle ordinaire d'ordre $n$ est écrite sous la forme explicite:
+            \begin{equation}
+                y^{(n)}=G(x, y, \dot{y}, \ldots, y^{(n-1)})
+            \end{equation}
+            où $G$ est une fonction bien définie et continue des variables indiquées, on dit qu'elle est sous \textit{forme résolue}. Cette formulation permet de représenter les équations différentielles comme des relations dans lesquelles la dérivée d'ordre supérieur est isolée en fonction des autres termes. Elle est fréquemment utilisée dans les méthodes analytiques et numériques pour simplifier la résolution.
+        \end{definition}
+        
+        Par exemple, l'EDO de second ordre suivante:
+        \begin{equation}
+            \ddot{y}=-k y
+        \end{equation}
+        est une équation de forme résolue où la dérivée seconde $\ddot{y}$ est exprimée directement en fonction de $y$. 
+        
+        La compréhension de ces définitions n'est pas seulement théorique, elle est la clé pour analyser et résoudre des problèmes concrets. En physique, par exemple, les équations différentielles régissent le mouvement des particules, la diffusion de la chaleur, la dynamique des systèmes électroniques, et bien d'autres encore. Les méthodes de résolution que nous verrons dans les sections suivantes exploitent souvent ces définitions, en particulier la forme résolue, pour simplifier l'approche du problème et obtenir des solutions qui offrent une vision quantitative des systèmes étudiés.
+        
+            \subsubsection{Exemples}
+                Examinons quelques exemples d'équations différentielles ordinaires d'ordre variable:
+                \begin{itemize}
+                    \item $\dot{y}(t) - 4y(t)=0$
+                    \item $\dddot{y}(t) - 3\dot{y}(t) + 2y(t)=0$
+                    \item $\dddot{y}(t)=-3\ddot{y}(t) - 4\dot{y}(t) - 2y(t) + \sin(2t)$
+                \end{itemize}
+    
+                Prenons, comme exemple plus concret, l'équation du mouvement dans le cadre de la gravitation Newtonienne (\cite{Newton1687}):
+                \begin{equation}
+                    \ddot{y}(t)=g
+                \end{equation}
+                où $g$ est la constante d'accélération gravitationnelle (et l'on voit tout de suite d'où vient ce nom, par rapport à l'équation).
+
+        \subsection{Équations différentielles ordinaires linéaires}
+            Les équations différentielles ordinaires linéaires constituent une classe centrale dans l'étude des systèmes dynamiques. En raison de leur structure linéaire, ces équations permettent des approches analytiques particulièrement élégantes et conduisent à des solutions bien définies sous certaines conditions. Ces méthodes sont au cœur de nombreuses avancées scientifiques, de l'astronomie, à l'étude de la taille des populations (\cite{Verhulst1838}).
+            
+            \begin{definition}{Équation différentielle ordinaire linéaire}  
+                Une EDO linéaire d'ordre $n$ s'exprime généralement sous la forme
+                \begin{equation}
+                a_0(t)\nod ytn + a_1(t) \nod yt{n-1} + \dots + a_{n-1}(t) \od yt + a_n(t)y=g(t)
+                \end{equation}
+                où les coefficients $a_i(t)$ et le terme $g(t)$ dépendent potentiellement de $t$, mais pas de $y(t)$. Cette équation est dite à \emph{coefficients constants} si tous les $a_i$ sont des constantes et \emph{homogène} si $g(t)=0$.  
+            \end{definition}
+            
+            \begin{theorem}{Existence et unicité}  
+                Sous des hypothèses de continuité sur l'intervalle $0 \leq t \leq T$, si les fonctions $a_i(t)$ et $g(t)$ sont continues, alors il existe une unique solution $y(t)$ qui satisfait un ensemble de conditions initiales:
+                \begin{equation}
+                y(0)=b_0, \quad \od {y(0)}t=b_1, \quad \dots, \quad \nod {y(0)}t{n-1}=b_{n-1}
+                \end{equation}
+            \end{theorem}
+            Ce résultat, fondé sur des travaux remontant à Cauchy et d'autres mathématiciens (\cite{Cauchy1840}), assure qu'une EDO linéaire correctement posée donne une solution bien définie.
+
+            La structure linéaire de ces équations, même dans les cas où les coefficients varient, permet d'appliquer le principe de combinaison, rendant leur résolution particulièrement puissante et élégante.
+            
+            \begin{theorem}{Combinaison de solutions}  
+                Soit $\{z^{(1)}(t), \dots, z^{(n)}(t)\}$ un ensemble linéairement indépendant de solutions de l'équation homogène: \robin{Pas clair comme notation~: $z^{(k)}$ est déjà utilisé comme notation pour la $k$ème dérivée de $z$}
+                \begin{equation}
+                \nod ytn + a_1(t) \nod yt{n-1} + \dots + a_{n-1}(t) \od yt + a_n(t)y = 0,
+                \end{equation}
+                alors, toute solution $z(t)$ de cette équation peut s'exprimer comme une combinaison linéaire de ces solutions indépendantes:
+                \begin{equation}
+                z(t)=c_1 z^{(1)}(t) + \dots + c_n z^{(n)}(t)
+                \end{equation}
+                pour des constantes $c_1, \dots, c_n$.
+            \end{theorem}
+        
+            \begin{theorem}{Équations non-homogènes}  
+                Si $\bar{y}(t)$ est une solution particulière de l'équation non homogène:
+                \begin{equation}
+                \nod ytn + a_1(t)\nod yt{n-1} + \dots + a_{n-1}(t) \od yt + a_n(t)y=g(t),
+                \end{equation}
+                alors l'ensemble des solutions est donné par $y(t)=\bar{y}(t) + z(t)$, où $z(t)$ est une solution générale de l'équation homogène associée.
+            \end{theorem}
+            Ce résultat signifie que la solution générale d'une EDO non homogène peut être formulé à partir d'une solution particulière et de la solution générale de l'équation homogène.
+            
+            Ces théorèmes sont fondamentaux pour comprendre les comportements d'EDO linéaires dans divers contextes d'application. Leur structure permet d'interpréter les solutions d'une manière qui donne un aperçu des propriétés générales du système étudié. La forme des systèmes d'équations différentielles permet de déduire certaines de ces propriétés, comme ce sera abordé dans le chapitre \ref{chap:portrait_phases}.
+
+        \subsection{Exemples d'EDO simples}
+            Pour nous familiariser avec la notion d'EDO, nous illustrons quelques méthodes classiques de résolution analytique pour les EDO du premier ordre. 
+            \subsubsection{Croissance exponentielle}
+                Dans un tel système, la valeur de l'état détermine le taux de changement de l'état-même (feedback). Ceci amène à la formation d'une dynamique exponentielle indépendamment de la présence d'une entrée (facteur \textit{externe} ou \textit{exogène}). Un exemple typique est l'évolution d'une population (par exemple des lapins) en absence de prédateurs: si la population augmente à un taux de $10\%$ cela signifie que le nombre de lapins additionnels à la fin du mois peut être calculé sur la base du nombre actuel. Notons que le taux de $10\%$ peut être obtenu comme la différence entre le taux de naissance et le taux de décès de la population. D'autres systèmes peuvent être modélisés de la même façon: l'évolution de l'intérêt dans un compte en banque, la croissance économique, la désintégration radioactive. Dans ce type de système, le changement d'état est complètement déterminé par l'état-même. Un tel système peut être décrit par l'équation
+                \begin{equation}
+                    \dot{x}(t)=cx(t)\\
+                \end{equation}
+                dans lequel la variation de la quantité observée, $\dot{x}(t)$ dépend uniquement de la quantité elle-même. Dans le cas précédemment présenté, la quantité $x(t)$ désigne la taille de la population, et sa variation $\dot{x}(t)$ est de $10\%$ de $x(t)$, autrement dit,
+                \begin{equation}
+                    \dot{x}(t)=\frac{x(t)}{10}\\
+                \end{equation}
+                De manière analytique, ce système peut être résolu en intégrant $c x(t)$, et, en fixant des conditions initiales, on peut obtenir une valeur pour la constante d'intégration.
+                On a
+                \[\dot x(t) = cx(t),\]
+                donc~:
+                \[\frac {\dot x(t)}{x(t)} = c.\]
+                En intégrant de part et d'autre, on obtient~:
+                \[\int_{t_0}^t\frac {\dot x(s)}{x(s)}\dd s = \int_{t_0}^t c\,\dd s.\]
+                En opérant le changement de variable $u = x(s)$ (donc $\dd u = \dot x(s)\dd s$) qui donne $s=t_0 \rightarrow u = x(t_0) = x_0$ et $s=t \rightarrow u=x(t)$, on obtient~:
+                \[\int_{x_0}^{x(t)}\frac 1u \dd u = c(t - t_0),\]
+                et donc~:
+                \[\log \frac {x(t)}{x_0} = c(t - t_0).\]
+                En composant de part et d'autre avec l'exponentielle, on obtient alors la solution~:
+                \[\frac {x(t)}{x_0} = \frac {e^{ct}}{e^{ct_0}},\]
+                où encore~:
+                \[x(t) = \frac {x_0}{e^{ct_0}}e^{ct} = x(0)e^{ct}.\]
+                
+                Savez-vous montrer d'où apparaît $x(0)$? On voit clairement que la solution du système de départ est une exponentielle. On peut évidemment vérifier que cette solution est correcte, en l'injectant dans le système de départ: l'égalité est effectivement vérifiée pour
+                \begin{equation}
+                    \begin{split}
+                        &\dot{x}(t) = c x(t)\\
+                        \Rightarrow& \frac{\dd}{\dd t} (x(0) e^{ct}) = c (x(0) e^{ct})
+                    \end{split}
+                \end{equation}
+                Ce système, qui fonctionne finalement comme un intégrateur simple, montre l'élégance du formalisme des EDO. Évidemment, dans le cadre de ce cours et pour l'intérêt des simulations, il faut se pencher sur des cas plus complexes, qui font intervenir plus qu'une fonction $x(t)$. Nous nous concentrons donc sur des systèmes d'ordre supérieurs à $1$.
+
+        \subsection{Systèmes plus complexes}
+            \subsubsection{Systèmes linéaires à coefficients constants}
+                Un système linéaire d'équations différentielles peut être écrit sous la forme:
+                \begin{equation}
+                    \begin{cases}
+                    \dot{x}_1(t)=a_{11}x_1(t) + a_{12}x_2(t) + \dots + a_{1n}x_n(t) \\
+                    \dot{x}_2(t)=a_{21}x_1(t) + a_{22}x_2(t) + \dots + a_{2n}x_n(t) \\
+                    \vdots \\
+                    \dot{x}_n(t)=a_{n1}x_1(t) + a_{n2}x_2(t) + \dots + a_{nn}x_n(t)
+                    \end{cases}
+                \end{equation}
+                ou en forme matricielle, pour $x(t) : T \to \mathbb R^n : t \mapsto [x_1(t), \ldots, x_n(t)]^\top$:
+                \begin{equation}
+                    \dot{x}(t)=A x(t)
+                \end{equation}
+        
+            \subsubsection{Expression d'une EDO linéaire homogène sous forme d'un système}
+                Une EDO linéaire homogène à coefficients constants d'ordre $n$ peut être réécrite sous forme d'un système d'équations différentielles:
+                \begin{equation}
+                    \begin{cases}
+                        \dot{x}_1=x_2 \\
+                        \dot{x}_2=x_3 \\
+                        \vdots \\
+                        \dot{x}_n=-a_n x_1 - a_{n-1} x_2 - \dots - a_1 x_n
+                    \end{cases}
+                \end{equation}
+                où $x_n=\nod yt{n-1}, x_2=\od yt, x_1=y$.
+        
+        \subsection{Système d'équations différentielles: combinaison de solutions}
+            \begin{lemma}{} 
+                Soient $x^{(j)}(t) $, $j=1, \ldots, K$ des solutions du système $\dot{x}(t)=Ax(t)$. Si $\{c_1, \ldots, c_K\}$ est un ensemble de constantes, alors le vecteur
+                \begin{equation}
+                    \sum_{j=1}^K c_j x^{(j)}(t)
+                \end{equation}
+                est aussi une solution. \robin{A nouveau confus~: $x^{(j)}$ est une notation de dérivée ici.}
+            \end{lemma}
+        
+        \subsection{Calcul des solutions: Exponentielle de matrices}
+            Pour $n=1 $, la solution du système $\dot{x}(t)=ax(t)$ est donnée par $x(t)=x(0) e^{at}$, où $x(0)$ est la condition initiale. Pour une matrice $A$, l'exponentielle est définie par:
+            \begin{equation}
+                e^{At}=\sum_{n=0}^{\infty} \frac{t^n}{n!} A^n
+            \end{equation}
+            Notons que la série $\sum_{n=0}^{\infty} \frac{t^n}{n!} A^n$ converge absolument pour toute matrice $A \in \mathbf{R}^{n\times n}$ et tout réel $t$.
+            Une solution du système est alors $x(t)=x(0) e^{At}$, car $\od {}te^{At}=A e^{At}$.
+        
+        \subsection{Calcul des solutions: Équation caractéristique}
+            Une solution de la forme $x(t)=\overrightarrow{v} e^{\lambda t}$ existe pour $\dot{x}(t)=Ax(t)$ si, et seulement si:
+            \begin{equation}
+                A\overrightarrow{v}=\lambda \overrightarrow{v} \quad \Rightarrow \quad (A - \lambda I)\overrightarrow{v}=0
+            \end{equation}
+            Ainsi, $\lambda$ est une valeur propre, et $\overrightarrow{v}$ est un vecteur propre correspondant. Souvent, on retrouvera les noms \textit{eigenvalue} et \textit{eigenvector}.
+
+            \begin{definition}{Spectre}
+                Le \textit{spectre} d'un système est défini comme l'ensemble de ses valeurs propres.
+            \end{definition}
+
+            \begin{definition}{Équation caractéristique}
+                Les valeurs propres $\{\lambda_1, \dots, \lambda_n\}$ sont les racines de l'équation caractéristique
+                \begin{equation}\label{eq:equation_caracteristique}
+                    \det(A - \lambda I)=0
+                \end{equation}
+                et les vecteurs $\overrightarrow{v_j}$ correspondants satisfont
+                \begin{equation}\label{eq:vecteurs_propres}
+                    (A - \lambda_j I)\overrightarrow{v_j}=0
+                \end{equation}
+            \end{definition}
+    
+            Si les $n$ valeurs propres de $A$ sont réelles et distinctes, alors les $n$ solutions correspondantes sont indépendantes et la solution générale est
+            \begin{equation}
+                c_1 e^{\lambda_1 t} \overrightarrow{v_1} + c_2 e^{\lambda_2 t} \overrightarrow{v_2} + \dots + c_n e^{\lambda_n t} \overrightarrow{v_n}
+            \end{equation}
+            Dans le cadre de ce cours, les autres cas ne seront traités que dans le cas $n=2$. Ceci va nous permettre de mettre en place des outils pratiques qui facilitent l'évaluation du comportement des systèmes dans des cas qui sont déjà assez intéressants.
+
+    \section{Système du second ordre}
+        Rappelons néanmoins, pour une matrice d'ordre $n$, les relations suivantes:
+        \begin{equation}
+            \det A=\prod_{i=1}^{n} \lambda_i
+        \end{equation}
+        et
+        \begin{equation}
+            \text{tr}(A)=\sum_{i=1}^{n} \lambda_i
+        \end{equation}
+        qui, dans le cas $n=2$, pour une matrice $A=\begin{bmatrix}a & b\\c & d\end{bmatrix}$, donne les relations
+        \begin{equation}\label{eq:valeurs_propres}
+            \begin{cases}
+                \det A=ad-bc=\lambda_1 \lambda_2\\
+                \text{tr}(A)=a+d=\lambda_1 + \lambda_2
+            \end{cases}
+        \end{equation}
+        ce qui est souvent plus rapide comme méthode que de passer par l'équation caractéristique.
+            
+        Prenons un système linéaire du second ordre
+        \begin{equation}
+            \begin{bmatrix} \dot{x}_1 \\ \dot{x}_2 \end{bmatrix}=
+            \begin{bmatrix} a & b \\ c & d \end{bmatrix} 
+            \begin{bmatrix} x_1 \\ x_2 \end{bmatrix}.
+        \end{equation}
+        L'équation caractéristique est
+        \begin{equation}
+            \begin{split}
+                \det \begin{bmatrix} 
+                        a - \lambda & b \\
+                        c & d - \lambda 
+                        \end{bmatrix} &= 0 \\
+                \Rightarrow (a - \lambda)(d - \lambda) - bc &= 0 \\
+                \Rightarrow \lambda^2 - (a + d) \lambda + (ad - bc) &= 0 \\
+                \Rightarrow \lambda^2 - T \lambda + \Delta &= 0
+            \end{split}
+        \end{equation}
+        où $T=a + d=\operatorname{Tr}(A)$ est la trace de la matrice $A$ et $\Delta=ad - bc=\det(A)$ est le déterminant de $A$.
+
+        Dans la suite, nous analysons trois cas:
+        \begin{enumerate}
+            \item Les valeurs propres sont réelles et distinctes.
+            \item Les valeurs propres sont complexes et conjuguées.
+            \item Les valeurs propres sont multiples.
+        \end{enumerate}
+
+        \subsection{Valeurs propres réelles et distinctes}
+            La solution générale est donnée par:
+            $
+            x(t)=c_1 e^{\lambda_1 t} \overrightarrow{v_1} + c_2 e^{\lambda_2 t} \overrightarrow{v_2}
+            $
+            où $\lambda_1$ et $\lambda_2$ sont les valeurs propres associées aux vecteurs propres $\overrightarrow{v_1}$ et $\overrightarrow{v_2}$ respectivement.
+
+        \subsection{Racines multiples}
+            Si $\lambda_1=\lambda_2=\lambda$ sont les valeurs propres réelles multiples, les solutions suivantes sont linéairement indépendantes:
+            \begin{equation}
+                x^{(1)}(t)=\overrightarrow{v_1} e^{\lambda t}
+            \end{equation}
+            et
+            \begin{equation}
+                x^{(2)}(t)=e^{\lambda t} (\overrightarrow{v_2} + t \overrightarrow{v_1})
+            \end{equation}
+            où $\overrightarrow{v_1}$ et $\overrightarrow{v_2}$ sont tels que
+            \begin{equation}
+                \begin{cases}
+                    (A - \lambda I)\overrightarrow{v_1}=0 \\
+                    (A - \lambda I)\overrightarrow{v_2}=\overrightarrow{v_1}
+                \end{cases}
+            \end{equation}
+            
+            Ainsi, la solution générale est
+            \begin{equation}
+                x(t)=c_1 x^{(1)}(t) + c_2 x^{(2)}(t)
+            \end{equation}
+
+        \subsection{Valeurs propres complexes conjuguées}
+            Considérons le système $\dot{x}(t)=Ax(t)$ où $A$ est une matrice à coefficients constants et réels. Si $\lambda_{1,2}=\alpha \pm i \beta$ sont deux valeurs propres complexes conjuguées et les vecteurs propres correspondants sont $\overrightarrow{v_{1,2}}=\overrightarrow{u} \pm i \overrightarrow{w}$, alors
+            \begin{equation}
+                x^{(1)}(t)=e^{\alpha t} (\cos(\beta t) \overrightarrow{u} - \sin(\beta t) \overrightarrow{w})
+            \end{equation}
+            et
+            \begin{equation}
+                x^{(2)}(t)=e^{\alpha t} (\sin(\beta t) \overrightarrow{u} + \cos(\beta t) \overrightarrow{w})
+            \end{equation}
+            sont les deux solutions réelles et linéairement indépendantes du système.
+            
+            Ainsi, la solution générale est
+            \begin{equation}
+                x(t)=c_1 x^{(1)}(t) + c_2 x^{(2)}(t)
+            \end{equation}
+
+    \section{Résumé des cas}
+        Dans l'étude de systèmes dynamiques linéaires du second ordre, les valeurs propres fournissent des informations essentielles sur le comportement temporel du système:
+        \begin{itemize}
+            \item \textbf{Valeurs propres réelles et distinctes:} Le système évolue de manière exponentielle le long des directions propres associées.
+            \item \textbf{Valeurs propres complexes conjuguées:} Le système présente une dynamique oscillatoire avec une croissance (ou décroissance) exponentielle. Cette oscillation est caractérisée par la fréquence $\beta$ et l'amortissement $\alpha$, déterminant la nature stable ou instable des oscillations.
+            \item \textbf{Racines multiples} Le système est marginalement stable ou présente une forme particulière de divergence si les valeurs propres sont positives.
+        \end{itemize}
+        L'étude des systèmes du second ordre sera abordée en détail dans le chapitre \ref{chap:portrait_phases}, afin de pouvoir déterminer qualitativement le comportement de ces systèmes à partir des valeurs et vecteurs propres.
+
+    \section{Exemple à racines réelles et distinctes}
+        Considérons le système différentiel linéaire suivant:
+        \begin{equation}
+            \dot{x}(t)=
+            \begin{bmatrix} 1 & 3 \\ 3 & 1 \end{bmatrix} x
+        \end{equation}
+        
+        La solution générale pour un tel système s’écrit sous la forme:
+        \begin{equation}
+            x(t)=c_1 e^{\lambda_1 t} \overrightarrow{v_1} + c_2 e^{\lambda_2 t} \overrightarrow{v_2}
+        \end{equation}
+        où $\lambda_i$ sont les valeurs propres de la matrice, et $\overrightarrow{v_i}$ sont les vecteurs propres associés.
+        
+        \subsection{Calcul des valeurs propres}
+            Pour déterminer les valeurs propres $\lambda_i$, nous devons résoudre l’équation caractéristique:
+            \begin{equation}
+                \det \left( \begin{bmatrix} 1 & 3 \\ 3 & 1 \end{bmatrix} - \lambda I \right)=0
+            \end{equation}
+            
+            En développant le déterminant, on obtient:
+            \begin{equation}
+                \lambda^2 - 2 \lambda - 8=0
+            \end{equation}
+            
+            Les solutions de cette équation sont les valeurs propres:
+            \begin{equation}
+                \lambda_1=-2, \quad \lambda_2=4
+            \end{equation}
+        
+        \subsection{Calcul des vecteurs propres}
+            \subsubsection{Calcul de $\overrightarrow{v_1}$ associé à $\lambda_1=-2$}
+                Pour déterminer $\overrightarrow{v_1}$, nous résolvons $(A - \lambda_1 I) \overrightarrow{v_1}=0$, ce qui donne:
+                \begin{equation}
+                    (A + 2 I) \overrightarrow{v_1}=0 \Rightarrow
+                    \begin{bmatrix} 3 & 3 \\ 3 & 3 \end{bmatrix} 
+                    \begin{bmatrix} x \\ y \end{bmatrix}=
+                    \begin{bmatrix} 0 \\ 0 \end{bmatrix}
+                \end{equation}
+                Rappelons que si $\overrightarrow{v}$ est un vecteur propre, alors $k\overrightarrow{v}$, pour $k \in \mathbf{R}, k\neq 0$ est aussi un vecteur propre. Cela implique que $\begin{bmatrix} x \\ y \end{bmatrix}=k \begin{bmatrix} 1 \\ -1 \end{bmatrix}$, avec $k \in \mathbb{R}$. On peut donc prendre $\overrightarrow{v_1}=\begin{bmatrix} 1 \\ -1 \end{bmatrix}$.
+                Le calcul des valeurs et vecteurs propres a déjà été enseigné dans le cours de Mathématiques (\cite{mathf117}).
+                
+            \subsubsection{Calcul de $\overrightarrow{v_2}$ associé à $\lambda_2=4$}
+                Pour déterminer $\overrightarrow{v_2}$, nous résolvons $(A - \lambda_2 I) \overrightarrow{v_2}=0$, ce qui donne:
+                \begin{equation}
+                    (A - 4 I) \overrightarrow{v_2}=0 \Rightarrow
+                    \begin{bmatrix} -3 & 3 \\ 3 & -3 \end{bmatrix} 
+                    \begin{bmatrix} x \\ y \end{bmatrix}=
+                    \begin{bmatrix} 0 \\ 0 \end{bmatrix}
+                \end{equation}
+                Cela implique que $\begin{bmatrix} x \\ y \end{bmatrix}=k \begin{bmatrix} 1 \\ 1 \end{bmatrix}$, avec $k \in \mathbb{R}$. On peut donc prendre $\overrightarrow{v_2}=\begin{bmatrix} 1 \\ 1 \end{bmatrix}$.
+                
+            Les vecteurs propres associés sont donc:
+            \begin{equation}
+                \overrightarrow{v_1}=\begin{bmatrix} 1 \\ -1 \end{bmatrix} \quad
+                \overrightarrow{v_2}=\begin{bmatrix} 1 \\ 1 \end{bmatrix}
+            \end{equation}
+
+
+            Ces vecteurs propres sont orthogonaux et forment donc une base (appelée \textbf{base propre}) dans l'espace des solutions. L'orthogonalité\footnote{Vérifier l'orthogonalité des vecteurs propres est une excellente manière de vérifier la validité des calculs des vecteurs propres.} se vérifie grâce au produit scalaire, qui doit être nul:
+            \begin{equation}
+                \begin{split}
+                    \overrightarrow{v_1}\cdot \overrightarrow{v_2} =&\begin{bmatrix} 1 \\ -1 \end{bmatrix} \cdot \begin{bmatrix} 1 \\ 1 \end{bmatrix} \\
+                    \Rightarrow& 1 \times 1 + (-1) \times 1 = 0
+                \end{split}
+            \end{equation}
+        
+        \subsection{Solution générale}
+            Ainsi, la solution générale du système est:
+            \begin{equation}
+                x(t)=c_1 e^{-2t} \begin{bmatrix} 1 \\ -1 \end{bmatrix} + c_2 e^{4t} \begin{bmatrix} 1 \\ 1 \end{bmatrix}
+            \end{equation}
+            En développant les composantes, on obtient:
+            \begin{equation}
+                \begin{cases}
+                    x_1(t)=c_1 e^{-2t} + c_2 e^{4t} \\
+                    x_2(t)=-c_1 e^{-2t} + c_2 e^{4t}
+                \end{cases}
+            \end{equation}
+        
+        \subsection{Conditions initiales et détermination des constantes}
+            Pour une condition initiale $x(0)=\begin{bmatrix} x_1(0) \\ x_2(0) \end{bmatrix}$, les constantes $c_1, c_2 \in \mathbf{R}$ doivent satisfaire:
+            \begin{equation}
+                c_1 \begin{bmatrix} 1 \\ -1 \end{bmatrix} + c_2 \begin{bmatrix} 1 \\ 1 \end{bmatrix}=x(0)
+            \end{equation}
+            Ce qui nous conduit au système linéaire:
+            \begin{equation}
+                \begin{cases}
+                    c_1 + c_2=x_1(0) \\
+                    -c_1 + c_2=x_2(0)
+                \end{cases}
+            \end{equation}
+            que l’on peut résoudre pour obtenir:
+            \begin{equation}
+                c_1=\frac{x_1(0) - x_2(0)}{2}, \quad c_2=\frac{x_1(0) + x_2(0)}{2}
+            \end{equation}
+            
+            Ainsi, la solution complète en fonction de la condition initiale est:
+            \begin{equation}
+                x(t)=\frac{x_1(0) - x_2(0)}{2} e^{-2t} \begin{bmatrix} 1 \\ -1 \end{bmatrix} + \frac{x_1(0) + x_2(0)}{2} e^{4t} \begin{bmatrix} 1 \\ 1 \end{bmatrix}
+            \end{equation}
+
+    \section{Exemple à racines complexes}
+        Pour illustrer le cas complexe dans les systèmes dynamiques d'ordre 2, nous examinons un système où la matrice $A$ a des valeurs propres imaginaires. Ce type de dynamique est souvent associé à des mouvements oscillatoires, présents en mécanique classique ou dans des circuits électriques oscillants.
+        
+        Considérons le système suivant:
+        \begin{equation}
+            \dot{x}(t)=\begin{bmatrix} 0 & 4 \\ -1 & 0 \end{bmatrix} x(t)
+        \end{equation}
+
+        Pour la suite de la résolution, nous nommerons
+        \begin{equation}
+            A=\begin{bmatrix} 0 & 4 \\ -1 & 0 \end{bmatrix}
+        \end{equation}
+    
+        \subsection{Équation caractéristique}  
+            Pour déterminer la dynamique du système, commençons par établir l'équation caractéristique, donnée par $\det (A - \lambda I)=0$:
+            \begin{equation}
+                \lambda^2 + 4=0
+            \end{equation}
+            Comme dans le cas précédent, il faut déterminer les vecteurs et les valeurs propres.
+        
+            \subsubsection{Valeurs propres}  
+                Les valeurs propres de $A$ sont données par:
+                \begin{equation}
+                    \lambda_{1,2}=\pm 2i
+                \end{equation}
+            
+            \subsubsection{Vecteurs propres}  
+                Pour chaque valeur propre $\lambda_j$, nous cherchons les vecteurs propres associés en résolvant $(A - \lambda_j I)\overrightarrow{v_j}=0$.
+                
+                Pour $\lambda_j=2i$, on obtient:
+                \begin{equation}
+                    \left( \begin{bmatrix} 0 & 4 \\ -1 & 0 \end{bmatrix} - \begin{bmatrix} 2i & 0 \\ 0 & 2i \end{bmatrix} \right) \begin{bmatrix} v_{j,1} \\ v_{j,2} \end{bmatrix}=0
+                \end{equation}
+                soit
+                \begin{equation}
+                    \begin{bmatrix} -2i & 4 \\ -1 & -2i \end{bmatrix} \begin{bmatrix} v_{j,1} \\ v_{j,2} \end{bmatrix}=0
+                \end{equation}
+                
+                En simplifiant, on trouve que les deux équations sont équivalentes, et nous pouvons alors déterminer un vecteur propre correspondant:
+                \begin{equation}
+                    \begin{bmatrix} -2i & 4 \end{bmatrix} \begin{bmatrix} v_{j,1} \\ v_{j,2} \end{bmatrix}=0
+                \end{equation}
+                d'où
+                \begin{equation}
+                    \begin{bmatrix} v_{j,1} \\ v_{j,2} \end{bmatrix}=\begin{bmatrix} 2 \\ i \end{bmatrix}
+                \end{equation}
+                
+                De manière similaire, lorsque $\lambda_j=-2i$, le vecteur propre associé est:
+                \begin{equation}
+                    \begin{bmatrix} v_{j,1} \\ v_{j,2} \end{bmatrix}=\begin{bmatrix} 2 \\ -i \end{bmatrix}
+                \end{equation}
+                
+                Ainsi, les vecteurs propres sont donnés par:
+                \begin{equation}
+                    \overrightarrow{v_{1,2}}=\begin{bmatrix} 2 \\ \pm i \end{bmatrix}=\begin{bmatrix} 2 \\ 0 \end{bmatrix} \pm i \begin{bmatrix} 0 \\ 1 \end{bmatrix}
+                \end{equation}
+                
+            \subsubsection{Solutions particulières}  
+                Les solutions associées aux valeurs propres complexes sont oscillatoires. En particulier, nous avons les deux solutions suivantes:
+                \begin{equation}
+                    \begin{cases}
+                            x^{(1)}(t) = \cos(2t) \begin{bmatrix} 2 \\ 0 \end{bmatrix} - \sin(2t) \begin{bmatrix} 0 \\ 1 \end{bmatrix} \\
+                            x^{(2)}(t) = \sin(2t) \begin{bmatrix} 2 \\ 0 \end{bmatrix} + \cos(2t) \begin{bmatrix} 0 \\ 1 \end{bmatrix}
+                        \end{cases}
+                \end{equation}
+            
+            \subsubsection{Solution générale}  
+                La solution générale du système est une combinaison linéaire des solutions $x^{(1)}(t)$ et $x^{(2)}(t)$:
+                \begin{equation}
+                    x(t)=c_1 x^{(1)}(t) + c_2 x^{(2)}(t)
+                \end{equation}
+                ce qui donne:
+                \begin{equation}
+                    \begin{cases}
+                            x_1(t) &= c_1 \cos(2t) + c_2 \sin(2t) \\
+                            x_2(t) &= -c_1 \sin(2t) + c_2 \cos(2t)
+                    \end{cases}
+                \end{equation}
+            
+            \subsubsection{Calcul numérique des valeurs et vecteurs propres}  
+                Pour vérifier les valeurs et vecteurs propres de $A$ par calcul numérique, la fonction \codeword{eig}\footnote{Rappelez-vous, pour \textit{eigenvalue} et \textit{eigenvector}} du module \codeword{linalg} (pour \textit{linear algebra}) de la librairie \codeword{Numpy} en Python peut être utilisée:
+                \inputminted{python}{codes/complex_example.py}
+
+    \section{Exemple à racines multiples}
+        Considérons un système dynamique dont la matrice des coefficients présente une racine multiple dans son \textit{spectre}. Ce type de système est particulièrement intéressant, car les solutions prennent une forme modifiée par rapport aux cas à racines simples, avec l'introduction de termes supplémentaires en $t$ qui modélisent une croissance différente dans le temps.
+        
+        Prenons le système défini par:
+        \begin{equation}
+            \dot{x}(t)=A x(t)
+        \end{equation}
+        où
+        \begin{equation}
+            A=\begin{bmatrix} 3 & -4 \\ 1 & -1 \end{bmatrix}
+        \end{equation}
+        
+        \subsection{Équation caractéristique}  
+            L'équation caractéristique de ce système est donnée par $\det (A - \lambda I)=0$:
+            \begin{equation}
+                \lambda^2 - 2\lambda + 1=0
+            \end{equation}
+            
+            \subsubsection{Racines}  
+                En résolvant cette équation, nous trouvons une racine double:
+                \begin{equation}
+                    \lambda_1=\lambda_2=1
+                \end{equation}
+            
+            \subsubsection{Vecteur propre $\overrightarrow{v_1}$}  
+                Pour déterminer le vecteur propre associé à cette racine, nous résolvons l'équation $(A - \lambda_1 I)\overrightarrow{v_1}=0$:
+                \begin{equation}
+                    \left( \begin{bmatrix} 3 & -4 \\ 1 & -1 \end{bmatrix} - \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix} \right) \begin{bmatrix} x \\ y \end{bmatrix}=\begin{bmatrix} 0 \\ 0 \end{bmatrix}
+                \end{equation}
+                ce qui revient à résoudre le système suivant:
+                \begin{equation}
+                    \begin{bmatrix} 2 & -4 \\ 1 & -2 \end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix}=\begin{bmatrix} 0 \\ 0 \end{bmatrix}
+                \end{equation}
+                
+                On trouve que les solutions de ce système sont toutes des multiples d'un même vecteur propre:
+                \begin{equation}
+                    \begin{bmatrix} x \\ y \end{bmatrix}=k \cdot \begin{bmatrix} 2 \\ 1 \end{bmatrix} \quad \forall k
+                \end{equation}
+                ce qui nous donne finalement:
+                \begin{equation}
+                    \overrightarrow{v_1}=\overrightarrow{v_2}=\begin{bmatrix} 2 \\ 1 \end{bmatrix}
+                \end{equation}
+            
+            \subsubsection{Solutions particulières}  
+                Dans le cas où les racines sont multiples, les solutions prennent une forme spécifique avec un terme supplémentaire en $t$. Les solutions particulières pour ce système sont:
+                \begin{equation}
+                    \begin{cases}
+                        x^{(1)}(t) = \begin{bmatrix} 2 \\ 1 \end{bmatrix} e^t \\
+                        x^{(2)}(t) = e^t \left( \begin{bmatrix} 2 \\ 1 \end{bmatrix} + t \begin{bmatrix} 2 \\ 1 \end{bmatrix} \right)
+                    \end{cases}
+                \end{equation}
+                
+            \subsubsection{Solution générale}  
+                La solution générale du système est une combinaison linéaire des solutions particulières $x^{(1)}(t)$ et $x^{(2)}(t)$:
+                \begin{equation}
+                    x(t)=c_1 x^{(1)}(t) + c_2 x^{(2)}(t)
+                \end{equation}
+                ce qui donne:
+                \begin{equation}
+                    \begin{cases}
+                        x_1(t) &= c_1 e^t + c_2 e^t (2 + 2t) \\
+                        x_2(t) &= c_1 e^t + c_2 e^t (1 + t)
+                    \end{cases}
+                \end{equation}
+    \section{Exercices}
+        Maintenant qu'une méthode simple a été présentée pour déterminer la solution générale d'un système  d'équations d'ordre 2, l'exercice type demandé est toujours le même. On vous donne un système d'équations différentielles d'ordre 2, de la forme
+        \begin{equation}
+            \begin{cases}
+                \dot{x}_1(t)=a_{11} x_1(t) + a_{12} x_2(t)\\
+                \dot{x}_2(t)=a_{21} x_1(t) + a_{22} x_2(t)
+            \end{cases}
+        \end{equation}
+        Vous devez:
+        \begin{enumerate}
+            \item définir la matrice des coefficients~;
+            \item définir l'équation caractéristique~;
+            \item calculer les valeurs propres~;
+            \item déterminer les vecteurs propres~;
+            \item en déduire la forme générale pour les fonctions $x_1(t)$ et $x_2(t)$~;
+            \item fixer les paramètres constants $c_1$ et $c_2$ selon des conditions initiales données pour $x_1(0), x_2(0)$~;
+            \item dessiner la trajectoire du système pour ces conditions initiales pour un intervalle de temps donné.
+        \end{enumerate}
+        \subsection{Exercice 1}
+            \begin{exercise}{Exercice 1}
+                Effectuez les étapes présentées à la section précédente pour le système
+                \begin{equation}
+                    \begin{cases}
+                        \dot{x}_1(t)=x_1(t) + 2 x_2(t)\\
+                        \dot{x}_2(t)=2 x_1(t) + x_2(t)
+                    \end{cases}
+                \end{equation}
+                où $x(0)=\begin{bmatrix} 0.5 \\ 0 \end{bmatrix}$ et $t=\{0, 0.1, 0.2, 0.3, 0.4, 0.5\}$.
+            \end{exercise}
+        \subsection{Exercice 2}
+            \begin{exercise}{Exercice 2}
+                Faites de même pour le système
+                \begin{equation}
+                    \begin{cases}
+                        \dot{x}_1(t)=3 x_2(t)\\
+                        \dot{x}_2(t)=-x_1(t)
+                    \end{cases}
+                \end{equation}
+                où $x(0)=\begin{bmatrix} 1 \\ -0.5 \end{bmatrix}$ et $t=\{0, 0.1, 0.2, 0.3, 0.4, 0.5\}$.
+            \end{exercise}
+            
+    \section{Résolution avec la programmation symbolique}
+        Les exercices précédents peuvent être aussi résolus à l'aide de la librairie \codeword{SymPy} (\cite{Sympy2017}), une librairie qui permet de réaliser de la programmation symbolique. Par exemple, le code suivant réalise chaque étape spécifiée pour l'exercice 1.
+        \inputminted{python}{codes/sympy.py}
+        Ce code \codeword{SymPy} exécute les étapes nécessaires pour résoudre le système:
+        \begin{itemize}
+            \item \textbf{Définition des variables :} On commence par définir les variables temporelles et les fonctions inconnues $x_1$ et $x_2$.
+            \item \textbf{Définition de la matrice des coefficients :} La matrice $A$ représente les coefficients du système linéaire.
+            \item \textbf{Calcul des valeurs propres et des vecteurs propres :} On utilise \codeword{eigenvals} et \codeword{eigenvects} pour déterminer les valeurs et vecteurs propres.
+            \item \textbf{Solution générale :} La solution est construite à partir des valeurs propres, des vecteurs propres et des constantes $c_1$ et $c_2$.
+        \end{itemize}
+        Cette librairie est une librairie puissante qui permet de résoudre beaucoup de problèmes mathématiques de manière symbolique. Il vous est fortement recommandé de l'explorer, même au-delà du cadre de ce cours.
