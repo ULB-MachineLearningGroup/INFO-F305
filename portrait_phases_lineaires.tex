@@ -12,7 +12,7 @@
         \begin{figure}[ht!]
             \centering
             \includegraphics[width=\textwidth]{images/exemple_portrait_de_phases.jpg}
-            \caption{Exemple de portrait de phases}
+            \caption{Exemple de portrait de phases autour du point d'équilibre du système décrit par la matrice $A = \begin{bmatrix}1 & -2\\-3 & 1\end{bmatrix}$}
             \label{fig:exemple_portrait_de_phases}
         \end{figure}
 
@@ -21,10 +21,11 @@
         Nous pensons qu'il est indispensable de construire une intuition du comportement des systèmes autour des points d'équilibre pour bien comprendre, et non pas retenir, la construction de ce diagramme de Poincaré. La confrontation aux exemples avant la présentation d'une méthode plus générale conviendra aux étudiant·e·s qui préfèrent généraliser par l'exemple. Sinon, la section \ref{sec:poincare} présente ce diagramme, et peut être abordé avant d'étudier chaque cas individuellement. Nous insistons néanmoins sur la nécessité d'étudier chaque type de comportement individuellement, car chacun a ses subtilités de calcul qui doivent être explorées.
     
     \section{Points d'équilibre et stabilité}
+        Insistons sur le fait que les définitions présentées dans cette section ont comme objective de former l'intuition: les définitions formelles ont été largement abordées au cours théorique, et la référence reste le syllabus théorique (\cite{infof305}). Nous référons l'étudiant·e au cours de Calcul Formel et Numérique et au cours de Mathématiques 2 (\cite{infof205}), où la notion de systèmes linéaire a largement été étudiée.
         \begin{definition}{Point d'équilibre}
             Un point d'équilibre (ou \textit{point fixe}) est un point à partir duquel la trajectoire coïncide avec la condition initiale.
         \end{definition}
-         Il répond à la condition $\dot{x} = 0$, étant donné que sa variation doit être nulle. Si $A$ est la matrice des coefficients du système étudié, et que $\det(A) \neq 0$, alors le seul état d'équilibre est $(0, 0)$. \robin{La caractérisation des solutions aux systèmes linéaires a été vue en F205, ça doit donc être connu ici} Sinon, il en existe d'autres.
+         Il répond à la condition $\dot{x} = 0$, étant donné que sa variation doit être nulle. Si $A$ est la matrice des coefficients du système étudié, et que $\det(A) \neq 0$, alors le seul état d'équilibre est $(0, 0)$. Sinon, il en existe d'autres.
          Une fois le(s) point(s) d'équilibre déterminés, on peut étudier la notion de stabilité. Comme vu au cours théorique, on dit qu'une trajectoire est \textit{stable} selon le critère de Liapounov si, pour tout point initial proche de cette trajectoire, les trajectoires qui en résultent restent dans un voisinage suffisamment petit autour de l'orbite au fil du temps. Autrement dit, si l'on perturbe légèrement un point sur cette orbite, la trajectoire de ce point perturbé restera à proximité de l'orbite initiale au lieu de s'en écarter indéfiniment. 
 
         \begin{definition}{Système stable}
@@ -52,7 +53,7 @@
         \begin{equation}
             A = \begin{bmatrix} -2 & 1 \\ 1 & -2 \end{bmatrix}
         \end{equation}
-        Soit un instant $t$ tel que l'état $x = \begin{bmatrix} 0.5 \\ 0 \end{bmatrix}$. Le vecteur vitesse à cet état est défini en résolvant le système d'équations différentielles \robin{Ce n'est pas un système d'équations différentielles~: $t$ est fixé, on cherche juste à résoudre un système linéaire dans $\mathbb R$}, par
+        Soit un instant $t$ tel que l'état $x = \begin{bmatrix} 0.5 \\ 0 \end{bmatrix}$. Le vecteur vitesse à cet état est défini en résolvant le système d'équations linéaires dans $\mathbb R$, par
         \begin{equation}
             \begin{bmatrix} \dot{x}_1 \\ \dot{x}_2 \end{bmatrix} = A \begin{bmatrix} 0.5 \\ 0 \end{bmatrix}
         \end{equation}
@@ -72,7 +73,7 @@
             \end{cases}
         \end{equation}
         Le vecteur vitesse est donc $\dot{x} = \begin{bmatrix} 0\\ 1.5\end{bmatrix} $. 
-        Avec cette méthode, on peut déterminer le vecteur vitesse en tout point du plan \robin{de l'espace des phases. Ici c'est un plan, mais ça fonctionne conceptuellement en dimension arbitraire}. 
+        Avec cette méthode, on peut déterminer le vecteur vitesse en tout point de l'espace des phases. 
         
         Si l'on trace les vecteurs vitesse pour un ensemble suffisamment grand de points, on obtient une première estimation du comportement du système, comme montré dans la figure \ref{fig:vecteurs_vitesse} pour le système décrit par la matrice 
         \begin{equation}
@@ -122,7 +123,7 @@
         \begin{figure}[ht!]
             \centering
             \includegraphics[width=\textwidth]{images/vecteurs_propres.jpg}
-            \caption{Exemple de vecteurs vitesse \robin{Ce sont les vecteurs propres ici, pas les vecteurs vitesse}}
+            \caption{Exemple de vecteurs propres}
             \label{fig:vecteurs_propres}
         \end{figure}
         
@@ -130,28 +131,28 @@
         Prenons un état correspondant à un multiple du vecteur propre $\overrightarrow{v_1} = \begin{bmatrix} 1 \\ 1 \end{bmatrix}$, par exemple $\begin{bmatrix}2\\ 2\end{bmatrix}$, et calculons son vecteur vitesse :
         \begin{equation}
             \begin{cases}
-                \dot{x}_1 = -2x_1 + x_2 = -2 \\
-                \dot{x}_2 = x_1 - 2x_2 = -2
+                \dot{x}^{(1)}_1 = -2x^{(1)}_1 + x^{(1)}_2 = -2 \\
+                \dot{x}^{(1)}_2 = x^{(1)}_1 - 2x^{(1)}_2 = -2
             \end{cases}
         \end{equation}
         Le vecteur vitesse est donc $\begin{bmatrix}-2\\ -2\end{bmatrix}$. Notez que le déplacement reste dans la même direction que notre vecteur vitesse initial.
 
         En règle générale : si on part d'un état $v$ qui est un multiple d'un vecteur propre, le vecteur vitesse a la même direction que ce vecteur propre.
         
-        Cette règle est vérifiable formellement. Soit une paire de vecteur et valeur propre $(v, \lambda)$. Nous avons par définition
+        Cette règle est vérifiable formellement. Soit une paire de vecteur et valeur propre $(\overrightarrow v, \lambda)$. Nous avons par définition
         \begin{equation}
-            A v = \lambda v
+            A \overrightarrow v = \lambda \overrightarrow v
         \end{equation}
         et donc, en revenant au système, si on part d'un état $x = k \cdot v$, nous avons
         \begin{equation}
             \begin{split}
                 &\dot{x} = A x \\
-                \Rightarrow& \dot{x} = k A v = k \lambda v
+                \Rightarrow& \dot{x} = k A \overrightarrow v = k \lambda \overrightarrow v
             \end{split}
         \end{equation}
-        Nous voyons donc que le vecteur vitesse $\dot{x}$ est bien un multiple du vecteur propre $v$.
+        Nous voyons donc que le vecteur vitesse $\dot{x}$ est bien un multiple du vecteur propre $\overrightarrow v$.
     \section{Exercices}
-        Comme dans le chapitre sur la résolution d'équations différentielles, on vous donne un système d'équations différentielles d'ordre 2, de la forme \robin{Tu utilises $A_{ij}$ (en majuscule) alors que tu utilisais $a_{ij}$ dans le chapitre précédent}
+        Comme dans le chapitre sur la résolution d'équations différentielles, on vous donne un système d'équations différentielles d'ordre 2, de la forme
         \begin{equation}
             \begin{cases}
                 \dot{x}_1(t) = A_{00} x_1(t) + A_{01} x_2(t)\\
@@ -240,7 +241,7 @@
             \begin{equation}
             ax_1 + bx_2 = 0,
             \end{equation}
-            et les trajectoires suivent des droites parallèles dans la direction du vecteur propre associé $\mathbf{v}_2$. \robin{Notation de vecteur en gras alors que notation $\overrightarrow \cdot$ dans le chapitre précédent.} On distingue deux cas selon le signe de $\lambda_2$ :
+            et les trajectoires suivent des droites parallèles dans la direction du vecteur propre associé $\overrightarrow  v_2$. On distingue deux cas selon le signe de $\lambda_2$ :
             
             \begin{itemize}
                 \item \textbf{Si $\lambda_2 < 0$ :} Les états d'équilibre sont stables, car toutes les trajectoires convergent vers la droite d'équilibre. \\
@@ -251,6 +252,26 @@
             \end{itemize}
 
         \subsection{Valeurs propres réelles et non-distinctes}
+            Rappelons d'abord, par deux exemple, la notion de diagonalisabilité d'une matrice. Pour une définition plus formelle, se référer au cours de Mathématiques (\cite{mathf117}). Soit
+            \begin{equation}
+                A = \begin{bmatrix}
+                    4 & 1 \\
+                    0 & 3
+                \end{bmatrix}
+            \end{equation}
+            
+            Cette matrice a deux valeurs propres distinctes $\lambda_1 = 4$ et $\lambda_2 = 3$, chacune avec un vecteur propre associé. Il existe donc deux vecteurs propres linéairement indépendants, et $A$ est diagonalisable.
+            
+            Soit maintenant
+                \begin{equation}
+                B = \begin{bmatrix}
+                    2 & 1 \\
+                    0 & 2
+                    \end{bmatrix}
+            \end{equation}
+            
+            La seule valeur propre est $\lambda = 2$, avec une multiplicité algébrique de 2. Cependant, on ne trouve qu’un seul vecteur propre (de multiplicité 1). Il n’y a donc pas assez de vecteurs propres pour former une base, et $B$ n’est pas diagonalisable.
+            
             Nous examinons ici le cas où $\lambda_1 = \lambda_2 = \lambda$, qui conduit à deux configurations selon la diagonalisabilité de $A$ :
 
             \begin{itemize}
@@ -298,7 +319,7 @@
             Enfin, nous examinons le cas où les valeurs propres sont complexes : $\lambda_1 = a + ib$ et $\lambda_2 = a - ib$. Ici, la nature des trajectoires dépend du signe de la partie réelle $a$ :
             
             \begin{itemize}
-                \item \textbf{Si $a = 0$ :} Les trajectoires forment des ellipses fermées avec une période de rotation $T = \frac{2 \pi}{|b|}$. L'origine est un \textit{centre}. Un exemple est montré en figure \ref{fig:centre}, avec la matrice
+                \item \textbf{Si $a = 0$ :} Les trajectoires forment des ellipses fermées avec une période de rotation $T = \frac{2 \pi}{|b|}$. Rappelons qu'une période est définie comme le temps nécessaire au système pour retourner au même point spatial. L'origine est un \textit{centre}. Un exemple est montré en figure \ref{fig:centre}, avec la matrice
                 \begin{equation}
                     A = \begin{bmatrix} 0 & 1 \\ -1 & 0 \end{bmatrix}
                 \end{equation}
@@ -308,6 +329,28 @@
                     \caption{Exemple de centre}
                     \label{fig:centre}
                 \end{figure}
+
+                La direction de rotation (horaire ou anti-horaire) des trajectoires autour de l'origine dépend du signe de la partie imaginaire $b$ des valeurs propres.
+                Néanmoins, notons que pour déterminer le sens de rotation, il suffit d'évaluer un vecteur vitesse (idéalement, facile à calculer) à un point différent du point d'équilibre. Supposons :
+                \begin{equation}
+                A = \begin{pmatrix}
+                a & b \\
+                c & d
+                \end{pmatrix}
+                \end{equation}
+                
+                Évaluons le vecteur $A x$ pour un point simple comme $x = (1, 0)^\top$ :
+                
+                \begin{equation}
+                A \begin{pmatrix}1\\0\end{pmatrix} = \begin{pmatrix}a\\c\end{pmatrix}
+                \end{equation}
+                
+                Ce vecteur indique la direction dans laquelle le système évolue à ce point.
+                
+                \begin{itemize}
+                    \item Si $c > 0$, alors $\dot{x}_2 > 0$ quand $x_1 = 1, x_2 = 0$, donc le mouvement est vers le haut: le champ de vecteurs tourne dans le sens antihoraire.
+                    \item Si $c < 0$, alors $\dot{x}_2 < 0$, donc mouvement vers le bas, et rotation horaire.
+                \end{itemize}
                 
                 \item \textbf{Si $a < 0$ :} Le système est asymptotiquement stable, et les trajectoires convergent vers l'origine en spirale. L'origine est un \textit{foyer stable}. Un exemple est donné en figure \ref{fig:foyer_stable}, avec la matrice
                 \begin{equation}
@@ -332,37 +375,35 @@
                 \end{figure}
             \end{itemize}
             
-            La direction de rotation (horaire ou anti-horaire) des trajectoires autour de l'origine dépend du signe de la partie imaginaire $b$ des valeurs propres.
-            
     \section{Diagramme de Poincaré}\label{sec:poincare}
         L'étude de la stabilité des systèmes dynamiques linéaires a bénéficié des contributions pionnières de Henri Poincaré, mathématicien du XIX\textsuperscript{e} siècle, dont les travaux ont permis d'approfondir la compréhension des systèmes dynamiques et du comportement de leurs points d'équilibre. Le diagramme de Poincaré, qui relie la trace et le déterminant d'une matrice à la nature des points d'équilibre, est aujourd'hui un outil fondamental pour la classification de la stabilité des systèmes dynamiques linéaires. Cette approche permet de prédire rapidement la stabilité d'un système, en offrant une visualisation claire des régions de stabilité et d'instabilité sur le plan des valeurs propres.
         
         \subsection{Trace et déterminant de la matrice $A$}
             La classification des points d'équilibre d'un système linéaire peut ainsi être résumée de manière compacte en utilisant la trace et le déterminant de la matrice $A$. En effet, les valeurs propres de $A$, notées $\lambda_1$ et $\lambda_2$, sont notamment calculables par l'expression
             \begin{equation}
-                \lambda_{1,2} = \frac{\Tr(A) \pm \sqrt{\Tr(A)^2 - 4 \det(A)}}{2}
+                \lambda_{1,2} = \frac{\text{tr}(A) \pm \sqrt{\text{tr}(A)^2 - 4 \det(A)}}{2}
             \end{equation}
             obtenue en développant l'équation caractéristique (voir équation \ref{eq:equation_caracteristique}).
             
-            Cette formule utilise deux éléments que nous savons calculer facilement depuis l'équation \ref{eq:valeurs_propres}: la trace $\Tr(A)$ et le déterminant $\det(A)$ de la matrice $A$. Ceux-ci permettent de déterminer la nature des valeurs propres, qu'elles soient réelles ou complexes, positives ou négatives, montrant ainsi la stabilité des points d'équilibre associés. En particulier, le discriminant 
+            Cette formule utilise deux éléments que nous savons calculer facilement depuis l'équation \ref{eq:valeurs_propres}: la trace $\text{tr}(A)$ et le déterminant $\det(A)$ de la matrice $A$. Ceux-ci permettent de déterminer la nature des valeurs propres, qu'elles soient réelles ou complexes, positives ou négatives, montrant ainsi la stabilité des points d'équilibre associés. En particulier, le discriminant 
             \begin{equation}
-                \Tr(A)^2 - 4 \det(A) = 0
+                \text{tr}(A)^2 - 4 \det(A) = 0
             \end{equation}
-            définit une parabole sur le plan $(\Tr(A), \det(A))$ qui sépare différentes régions de stabilité dans le système dynamique. Cette parabole représente la transition entre les valeurs propres réelles et complexes, et sa position est cruciale pour interpréter les comportements qualitatifs des trajectoires. 
+            définit une parabole sur le plan $(\text{tr}(A), \det(A))$ qui sépare différentes régions de stabilité dans le système dynamique. Cette parabole représente la transition entre les valeurs propres réelles et complexes, et sa position est cruciale pour interpréter les comportements qualitatifs des trajectoires. 
 
             Le diagramme de Poincaré, montré dans la figure \ref{fig:poincare}, présente cette classification en fonction de la trace et du déterminant de $A$, indiquant les différentes régions de stabilité et le type de points d'équilibre que l'on peut rencontrer.
             \begin{figure}[ht!]
                 \centering
                 \includegraphics[width=\textwidth]{images/poincare.png}
-                \caption{Graphique de classification des points d'équilibre selon la trace et le déterminant de la matrice décrivant le système}
+                \caption{Graphique de classification des points d'équilibre selon la trace et le déterminant de la matrice décrivant le système. En abscisse, la trace du de la matrice qui décrit le système et en ordonnée, le déterminant de cette matrice. La parabole correspond aux systèmes pour lesquels le discriminant associé à l'équation caractéristique.}
                 \label{fig:poincare}
             \end{figure}
 
             On visualise sur cette figure plusieurs régularités:
             \begin{itemize}
                 \item Si la trace de la matrice est négative, le système est stable, si elle est strictement positive, elle est instable. Si la trace est nulle, le système décrit soit un centre, soit un mouvement uniforme.
-                \item Si le point $\begin{bmatrix}\Tr(A)\\\det A\end{bmatrix}$ se trouve au-dessus de la parabole d'équation $\Tr(A)^2 - 4 \det(A) = 0$, le système est rotatif autour de son point d'équilibre.
-                \item De manière plus intuitive, les mouvements intermédiaires (sur l'axe $\det A = 0$,  sur la parabole, ou sur l'axe $\Tr(A) = 0$) peuvent être vus comme des comportements limites entre ceux des régions qui les entourent. Par exemple, un centre ressemble à un foyer, qui n'est ni stable ni instable.
+                \item Si le point $\begin{bmatrix}\text{tr}(A)\\\det A\end{bmatrix}$ se trouve au-dessus de la parabole d'équation $\text{tr}(A)^2 - 4 \det(A) = 0$, les trajectoires décrites par le systèmes tournent autour de son point d'équilibre.
+                \item De manière plus intuitive, les mouvements intermédiaires (sur l'axe $\det A = 0$,  sur la parabole, ou sur l'axe $\text{tr}(A) = 0$) peuvent être vus comme des comportements limites entre ceux des régions qui les entourent. Par exemple, un centre ressemble à un foyer, qui n'est ni stable ni instable.
             \end{itemize}
             
     \section{Exercices}
@@ -440,7 +481,7 @@
         \begin{equation}
             \dot{x}(t) = A x(t)
         \end{equation}
-        où $A$ est une matrice $2 \times 2$, la solution générale de ce système est de la forme: \robin{si les valeurs propres sont distinctes}
+        où $A$ est une matrice $2 \times 2$, la solution générale de ce système est de la forme:
         \begin{equation}
             x(t) = c_1 e^{\lambda_1 t} \overrightarrow{v_1} + c_2 e^{\lambda_2 t} \overrightarrow{v_2}
         \end{equation}
@@ -471,7 +512,7 @@
         \end{definition}
         Elles sont essentielles pour comprendre la dynamique des trajectoires dans le portrait de phases :
         \begin{itemize}
-            \item Les isoclines divisent le plan en régions où les signes de $\dot{x}_1$ et $\dot{x}_2$ changent, determinant la direction des vecteurs vitesse.
+            \item Les isoclines divisent le plan en régions où les signes de $\dot{x}_1$ et $\dot{x}_2$ changent, déterminant la direction des vecteurs vitesse.
             \item Sur les isoclines, les vecteurs vitesse sont alignés horizontalement (lorsque $\dot{x}_2 = 0$) ou verticalement (lorsque $\dot{x}_1 = 0$), rajoutant une série de vecteurs vitesse faciles à tracer.
         \end{itemize}
         La figure \ref{fig:isoclines} montre les isoclines et les vecteurs vitesse associés au système décrit par la matrice
@@ -488,7 +529,7 @@
             
     \section{Démarche générale}
         \subsection{Calcul de la trace et du déterminant de la matrice}
-        Pour classifier le système selon le diagramme de Poincaré, nous commençons par calculer la trace $\Tr(A)$ et le déterminant $\det(A)$ de la matrice $A$. La trace et le déterminant caractérisent les propriétés dynamiques du système. En les situant sur le diagramme de Poincaré, nous pouvons prédire la nature des points d'équilibre : nœud, foyer, centre, ou selle. Ces informations préliminaires nous orientent vers une première classification du comportement du système.
+        Pour classifier le système selon le diagramme de Poincaré, nous commençons par calculer la trace $\text{tr}(A)$ et le déterminant $\det(A)$ de la matrice $A$. La trace et le déterminant caractérisent les propriétés dynamiques du système. Le déterminant de la matrice permet de déduire si le système est simple ou non-simple (rappelons, si le déterminant est nul, alors le système est non-simple). Dès lors, nous pouvons conclure le nombre de points d'équilibre (respectivement,un point ou une infinité de points). En situant la trace et le déterminant de la matrice sur le diagramme de Poincaré, nous pouvons prédire la nature des points d'équilibre : nœud, foyer, centre, ou selle. Ces informations préliminaires nous orientent vers une première classification du comportement du système.
 
         \subsection{Calcul des valeurs propres}
             Les valeurs propres $\lambda_1$ et $\lambda_2$ de $A$ sont obtenues en résolvant l'équation caractéristique, ou en résolvant le système \ref{eq:valeurs_propres}. Les solutions de cette équation, $\lambda_1$ et $\lambda_2$, nous permettent d'affiner l’analyse de la stabilité et de déterminer la nature des trajectoires du système. En particulier, la présence de valeurs propres réelles ou complexes, ainsi que le signe de leur partie réelle, dicte si les trajectoires convergent vers l’origine, s’en éloignent ou oscillent autour.
