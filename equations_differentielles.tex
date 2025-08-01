@@ -48,24 +48,24 @@
         \begin{definition}{Équation différentielle ordinaire (EDO) d'ordre $n$}\label{def:eqdiff}
             Une \textit{équation différentielle ordinaire d'ordre $n$} est une équation impliquant une ou plusieurs dérivées d'une fonction inconnue $y$ par rapport à une variable indépendante $t$. Elle est définie par:
             \begin{equation}
-                F(x, y, \dot{y}, \ldots, y^{(n)})=0
+                F(t, y, \dot{y}, \ldots, y^{(n)})=0
             \end{equation}
             où $y=y(t)$ est la fonction inconnue, $\dot{y}, y^{(2)}, \ldots, y^{(n)}$ désignent les dérivées successives de $y$ par rapport à $t$, et $n$ est l'ordre de la dérivée la plus élevée présente dans l'équation. L'ordre $n$ de l'équation est donc défini par le plus grand nombre de dérivations appliquées à la fonction $y$ qui interviennent dans $F$.
         \end{definition}
         
         Quelques exemples permettent d’illustrer cette notion d’ordre:
         \begin{itemize}
-            \item Une EDO d'ordre 1 (ou EDO de premier ordre) peut s'écrire: \robin{C'est trompeur~: on pourrait croire en lisant ça que toute EDO d'ordre 1 a cette forme-là, mais $\dot y \cdot y - y^2=c$ est un contre-exemple}
+            \item Certaines EDO d'ordre 1 (ou EDO de premier ordre) peuvent s'écrire: 
             \begin{equation}
                 \dot{y} + p(t)y=q(t)
             \end{equation}
-            où $p(t)$ et $q(t)$ sont des fonctions connues de la variable $t$. Les équations de ce type apparaissent dans de nombreux contextes, comme la modélisation de la vitesse de refroidissement d'un objet ou la croissance d'une population.
+            où $p(t)$ et $q(t)$ sont des fonctions connues de la variable $t$. Les équations de ce type apparaissent dans de nombreux contextes, comme la modélisation de la vitesse de refroidissement d'un objet ou la croissance d'une population. Plus généralement, les EDO d'ordre 1 répondent (forcément) à la définition $F(t, y, \dot{y})=0$
             
-            \item Une équation d'ordre 2 (ou EDO de second ordre) prend une forme plus complexe:
+            \item Une équation d'ordre 2 (ou EDO de second ordre) prend une forme plus complexe, par exemple:
             \begin{equation}
                 \ddot{y} + p(t)\dot{y} + q(t)y=r(t)
             \end{equation}
-            où $\ddot{y}$ représente la dérivée seconde de $y$ par rapport à $t$. L'ordre de l'équation est particulièrement significatif, car il détermine souvent la complexité du comportement dynamique du système décrit (bien que la notion de non-linéarité, que nous verrons plus tard, joue aussi un rôle \robin{LODE d'ordre $n$ revient à LODE d'ordre 1, ce qui confirme que ordre 1 est plus facile que ordre $n \geq 2$}).
+            où $\ddot{y}$ représente la dérivée seconde de $y$ par rapport à $t$. L'ordre de l'équation est particulièrement significatif, car il détermine souvent la complexité du comportement dynamique du système décrit (bien que la notion de non-linéarité, que nous verrons plus tard, joue aussi un rôle.
         \end{itemize}
         
         \begin{definition}{Équation différentielle ordinaire d'ordre $n$ sous forme résolue}\label{def:resolved_form}
@@ -120,7 +120,7 @@
             La structure linéaire de ces équations, même dans les cas où les coefficients varient, permet d'appliquer le principe de combinaison, rendant leur résolution particulièrement puissante et élégante.
             
             \begin{theorem}{Combinaison de solutions}  
-                Soit $\{z^{(1)}(t), \dots, z^{(n)}(t)\}$ un ensemble linéairement indépendant de solutions de l'équation homogène: \robin{Pas clair comme notation~: $z^{(k)}$ est déjà utilisé comme notation pour la $k$ème dérivée de $z$}
+                Soit $\{z^{(1)}(t), \dots, z^{(n)}(t)\}$ un ensemble linéairement indépendant de solutions de l'équation homogène:
                 \begin{equation}
                 \nod ytn + a_1(t) \nod yt{n-1} + \dots + a_{n-1}(t) \od yt + a_n(t)y = 0,
                 \end{equation}
@@ -139,6 +139,8 @@
                 alors l'ensemble des solutions est donné par $y(t)=\bar{y}(t) + z(t)$, où $z(t)$ est une solution générale de l'équation homogène associée.
             \end{theorem}
             Ce résultat signifie que la solution générale d'une EDO non homogène peut être formulé à partir d'une solution particulière et de la solution générale de l'équation homogène.
+
+            Mentionnons (voir le syllbus théorique), les notions de mouvements libres et forcés. Rappelons l'intuition derrière ces deux notions: le mouvement libre correspond à l'évolution du système en l'absence de forces extérieures, lorsque la condition initiale est non-nulle, tandis que le mouvement forcé correspond à l'évolution du système en présence de forces extérieures lorsque la condition initiale. Comme le système est linéaire, tout mouvement peut être décrit comme une combinaison linéaire entre un mouvement libre et un mouvement forcé.
             
             Ces théorèmes sont fondamentaux pour comprendre les comportements d'EDO linéaires dans divers contextes d'application. Leur structure permet d'interpréter les solutions d'une manière qui donne un aperçu des propriétés générales du système étudié. La forme des systèmes d'équations différentielles permet de déduire certaines de ces propriétés, comme ce sera abordé dans le chapitre \ref{chap:portrait_phases}.
 
@@ -183,10 +185,10 @@
                 Un système linéaire d'équations différentielles peut être écrit sous la forme:
                 \begin{equation}
                     \begin{cases}
-                    \dot{x}_1(t)=a_{11}x_1(t) + a_{12}x_2(t) + \dots + a_{1n}x_n(t) \\
-                    \dot{x}_2(t)=a_{21}x_1(t) + a_{22}x_2(t) + \dots + a_{2n}x_n(t) \\
+                    \dot{x}_1(t)=A_{11}x_1(t) + A_{12}x_2(t) + \dots + A_{1n}x_n(t) \\
+                    \dot{x}_2(t)=A_{21}x_1(t) + A_{22}x_2(t) + \dots + A_{2n}x_n(t) \\
                     \vdots \\
-                    \dot{x}_n(t)=a_{n1}x_1(t) + a_{n2}x_2(t) + \dots + a_{nn}x_n(t)
+                    \dot{x}_n(t)=A_{n1}x_1(t) + A_{n2}x_2(t) + \dots + A_{nn}x_n(t)
                     \end{cases}
                 \end{equation}
                 ou en forme matricielle, pour $x(t) : T \to \mathbb R^n : t \mapsto [x_1(t), \ldots, x_n(t)]^\top$:
@@ -212,7 +214,7 @@
                 \begin{equation}
                     \sum_{j=1}^K c_j x^{(j)}(t)
                 \end{equation}
-                est aussi une solution. \robin{A nouveau confus~: $x^{(j)}$ est une notation de dérivée ici.}
+                est aussi une solution.
             \end{lemma}
         
         \subsection{Calcul des solutions: Exponentielle de matrices}
@@ -220,7 +222,7 @@
             \begin{equation}
                 e^{At}=\sum_{n=0}^{\infty} \frac{t^n}{n!} A^n
             \end{equation}
-            Notons que la série $\sum_{n=0}^{\infty} \frac{t^n}{n!} A^n$ converge absolument pour toute matrice $A \in \mathbf{R}^{n\times n}$ et tout réel $t$.
+            Notons que la série $\sum_{n=0}^{\infty} \frac{t^n}{n!} A^n$ converge absolument pour toute matrice $A \in \mathbb{R}^{n\times n}$ et tout réel $t$.
             Une solution du système est alors $x(t)=x(0) e^{At}$, car $\od {}te^{At}=A e^{At}$.
         
         \subsection{Calcul des solutions: Équation caractéristique}
@@ -388,7 +390,7 @@
                     \begin{bmatrix} x \\ y \end{bmatrix}=
                     \begin{bmatrix} 0 \\ 0 \end{bmatrix}
                 \end{equation}
-                Rappelons que si $\overrightarrow{v}$ est un vecteur propre, alors $k\overrightarrow{v}$, pour $k \in \mathbf{R}, k\neq 0$ est aussi un vecteur propre. Cela implique que $\begin{bmatrix} x \\ y \end{bmatrix}=k \begin{bmatrix} 1 \\ -1 \end{bmatrix}$, avec $k \in \mathbb{R}$. On peut donc prendre $\overrightarrow{v_1}=\begin{bmatrix} 1 \\ -1 \end{bmatrix}$.
+                Rappelons que si $\overrightarrow{v}$ est un vecteur propre, alors $k\overrightarrow{v}$, pour $k \in \mathbb{R}, k\neq 0$ est aussi un vecteur propre. Cela implique que $\begin{bmatrix} x \\ y \end{bmatrix}=k \begin{bmatrix} 1 \\ -1 \end{bmatrix}$, avec $k \in \mathbb{R}$. On peut donc prendre $\overrightarrow{v_1}=\begin{bmatrix} 1 \\ -1 \end{bmatrix}$.
                 Le calcul des valeurs et vecteurs propres a déjà été enseigné dans le cours de Mathématiques (\cite{mathf117}).
                 
             \subsubsection{Calcul de $\overrightarrow{v_2}$ associé à $\lambda_2=4$}
@@ -430,7 +432,7 @@
             \end{equation}
         
         \subsection{Conditions initiales et détermination des constantes}
-            Pour une condition initiale $x(0)=\begin{bmatrix} x_1(0) \\ x_2(0) \end{bmatrix}$, les constantes $c_1, c_2 \in \mathbf{R}$ doivent satisfaire:
+            Pour une condition initiale $x(0)=\begin{bmatrix} x_1(0) \\ x_2(0) \end{bmatrix}$, les constantes $c_1, c_2 \in \mathbb{R}$ doivent satisfaire:
             \begin{equation}
                 c_1 \begin{bmatrix} 1 \\ -1 \end{bmatrix} + c_2 \begin{bmatrix} 1 \\ 1 \end{bmatrix}=x(0)
             \end{equation}
@@ -602,8 +604,8 @@
         Maintenant qu'une méthode simple a été présentée pour déterminer la solution générale d'un système  d'équations d'ordre 2, l'exercice type demandé est toujours le même. On vous donne un système d'équations différentielles d'ordre 2, de la forme
         \begin{equation}
             \begin{cases}
-                \dot{x}_1(t)=a_{11} x_1(t) + a_{12} x_2(t)\\
-                \dot{x}_2(t)=a_{21} x_1(t) + a_{22} x_2(t)
+                \dot{x}_1(t)=A_{11} x_1(t) + A_{12} x_2(t)\\
+                \dot{x}_2(t)=A_{21} x_1(t) + A_{22} x_2(t)
             \end{cases}
         \end{equation}
         Vous devez:
