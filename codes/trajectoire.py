@@ -11,7 +11,7 @@ def trajectoire(A: list[list], interval: list[int], c_i: list[int]) -> None:
         t_eval=np.linspace(interval[0], interval[1], 250)
     )
 
-    plt.plot(sol.y[0, :], sol.y[1, :], color="red", label="Trajectoire")
+    plt.plot(sol.y[0, :], sol.y[1, :], label="Trajectoire ("+r"$\dot{x}(0)$"+f" = {c_i})")
     plt.title(f"Trajectoire demarrant en {interval}")
     plt.xlabel("x1")
     plt.ylabel("x2")

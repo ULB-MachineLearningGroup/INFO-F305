@@ -31,7 +31,7 @@
                 Si la multiplication doit être matricielle:
                 \inputminted{python}{codes/np_matmul.py}
     \section{Solveur numérique}
-        Pour résoudre les systèmes dynamiques, nous utiliserons la fonction \codeword{solve_ivp} du module \codeword{integrate}, dans la librairie \codeword{SciPy} (\cite{Scipy2020}). Cette fonction intègre numériquement des équations différentielles. \robin{Tu peux faire le lien avec les algorithmes de type Runge-Kutta (fonctionnement par défaut de \texttt{solve\_ivp}) qui sont vus en F205.} Elle prend en paramètres:
+        Pour résoudre les systèmes dynamiques, nous utiliserons la fonction \codeword{solve_ivp} du module \codeword{integrate}, dans la librairie \codeword{SciPy} (\cite{Scipy2020}). Cette fonction intègre numériquement des équations différentielles. Par défaut, la fonction \codeword{solve_ivp} utilise la méthode de Runge-Kutta, qui a déjà été vue intensivement dans le cours de Calcul Formel et Numérique (\cite{infof205}). Elle prend en paramètres:
         \begin{itemize}
             \item \textbf{La fonction à intégrer} : une fonction Python définissant l’équation différentielle.
             \item \textbf{L'intervalle de simulation} : la durée de la simulation.
@@ -42,10 +42,10 @@
         Dans cette section, nous explorerons des exemples classiques de systèmes d'ordre 1, résolus numériquement à l'aide de \codeword{SciPy}. Ces exemples sont plus simples que ceux abordés dans le chapitre \ref{chap:portrait_phases}, mais ils permettent de se familiariser avec la syntaxe qu'imposent \codeword{Numpy} et \codeword{SciPy}.
     
         \subsection{Intégrateur simple}
-            Nous commençons par un modèle d'intégrateur simple, décrit par le système suivant \robin{à nouveau $y(t)=x(t)$, je ne comprends pas la notation.} \robin{Utilisation de 'prime' pour une dérivée (temporelle) alors que 'point' était utilisé jusqu'ici.}:
-            \begin{equation*}
+            Nous commençons par un modèle d'intégrateur simple, décrit par le système suivant:
+            \begin{equation*}\label{eq:integrateur_simple}
                 \begin{cases}
-                    x'(t)=c\,u(t)\\
+                    \dot x(t)=c u(t)\\
                     y(t)=x(t)
                 \end{cases}
             \end{equation*}
@@ -57,8 +57,11 @@
                 \item Entrée: $u(t)=\sin(t)$.
             \end{itemize}
 
+            \subsubsection{Solution analytique}
+                Le système trouve une solution en $x(t) = 2 - \cos t$\footnote{Nous encourageons l'étudiant·e à justifier analytiquement cette solution avant de passer à la solution numérique.}. Cela est facilement vérifiable en remplaçant $x(t)$ par sa solution dans le système \ref{eq:integrateur_simple}.
+
             \subsubsection{Solution numérique}
-                Le code suivant résout numériquement le système et affiche le résultat via la bibliothèque \codeword{Matplotlib} (\cite{Matplotlib2007}). Le graphique est présenté en Figure \ref{fig:integrateur_simple}. \robin{P-ê mentionner que la solution au système est $x(t) = 2-\cos t$ pour confirmer visuellement la solution~?}
+                Le code suivant résout numériquement le système et affiche le résultat via la bibliothèque \codeword{Matplotlib} (\cite{Matplotlib2007}). Le graphique est présenté en Figure \ref{fig:integrateur_simple}. 
                 \inputminted{python}{codes/integrateur_simple.py}
                 \begin{figure}[ht!]
                     \centering
@@ -66,12 +69,13 @@
                     \caption{Solution numérique de l'intégrateur simple}
                     \label{fig:integrateur_simple}
                 \end{figure}
+                Notons que la solution numérique correspond visuellement à la solution analytique précédemment présentée.
 
         \subsection{Croissance et décroissance exponentielle}
             Ce modèle a déjà été présenté dans le chapitre \ref{chap:equadiff}, dans lequel nous avons déterminé la solution analytique. Nous montrons que cette solution peut être aussi obtenue numériquement. Le système est décrit par
             \begin{equation*}
             \begin{cases}
-            x'(t)=c\,x(t)\\
+            \dot x(t)=c x(t)\\
             y(t)=x(t)
             \end{cases}
             \end{equation*}
@@ -81,9 +85,12 @@
                 \item Valeur du paramètre: $c=0.1$,
                 \item Intervalle temporel: $[0,10]$.
             \end{itemize}
+
+            \subsubsection{Solution analytique}
+                Le système trouve une solution en $x(t) = \exp(t/10)$. 
         
             \subsubsection{Solution numérique}
-                Ce code résout le système exponentiel et affiche le graphique de la solution en Figure \ref{fig:croissance_exponentielle}. \robin{Again, faire le lien avec la solution $x(t) = \exp(t/10)$~?}
+                Ce code résout le système exponentiel et affiche le graphique de la solution en Figure \ref{fig:croissance_exponentielle}. 
                 \inputminted{python}{codes/croissance_exponentielle.py}
                 \begin{figure}[ht!]
                     \centering
@@ -96,7 +103,7 @@
             Pour illustrer les effets d'un retard dans un système dynamique, nous utilisons un modèle simple avec une entrée constante :
             \begin{equation*}
             \begin{cases}
-            x'(t)=u(t)-cx(t)\\
+            \dot x(t)=u(t)-cx(t)\\
             y(t)=x(t)
             \end{cases}
             \end{equation*}
@@ -107,9 +114,12 @@
                 \item Intervalle temporel: $[0,10]$,
                 \item Entrée: $u(t)=1$ pour $t>0$.
             \end{itemize}
-        
+
+            \subsubsection{Solution analytique}
+                Le système trouve une solution en $x(t) = (1 + \exp(-2t)) / 2$.
+                
             \subsubsection{Solution numérique}
-                La solution numérique est obtenue avec le code suivant. Le graphique correspondant est présenté en Figure \ref{fig:retard}. \robin{Again, faire le lien avec la solution $x(t) = (1 + \exp(-2t)) / 2$~?}
+                La solution numérique est obtenue avec le code suivant. Le graphique correspondant est présenté en Figure \ref{fig:retard}.
                 \inputminted{python}{codes/retard.py}
                 \begin{figure}[ht!]
                     \centering
@@ -119,10 +129,10 @@
                 \end{figure}
 
         \subsection{Croissance logistique}
-            Le modèle logistique est largement utilisé pour représenter la croissance de populations soumises à une capacité limite \footnote{\url{https://fr.wikipedia.org/wiki/Fonction_logistique_(Verhulst)}}:
+            Le modèle logistique est largement utilisé pour représenter la croissance de populations soumises à une capacité limite, étudiée par Pierre François Verhulst (\cite{Verhulst1845, Verhulst1847})\footnote{Pierre François Verhulst était un mathématicien belge né en 1804 à Bruxelles et mort en 1849. Il a étudié à l'Athénée Royal de Bruxelles puis à l'Université de Gand avec Adolphe Quetelet. Adolphe Quetelet, né à Gand en 1796 et mort en 1874 à Bruxelles, était un des méthématiciens les plus influents de son temps, mais aussi astronome, statisticien, naturaliste, et fondateur de l'Observatoire Royal de Belgique.}:
             \begin{equation*}
             \begin{cases}
-            x'(t)=c\,x(t)\left(1-\frac{x(t)}{k}\right)\\
+            \dot x(t)=c x(t)\left(1-\frac{x(t)}{k}\right)\\
             y(t)=x(t)
             \end{cases}
             \end{equation*}
@@ -150,10 +160,11 @@
                     \caption{Effet des conditions initiales sur la croissance logistique}
                     \label{fig:logistique2}
                 \end{figure}
+                
     \section{Simulation de systèmes linéaires d'ordre 2}
         Les étapes pour la simulation et le dessin de portrait de phases des systèmes d'ordre deux sont les mêmes que celles vues dans le chapitre \ref{chap:portrait_phases}. Pour un système
         \begin{equation*}
-            x'(t) = A x(t)
+            \dot x(t) = A x(t)
         \end{equation*}
         Les étapes à suivre sont les suivantes
         \begin{enumerate}
@@ -213,24 +224,22 @@
                     \end{cases}
                 \end{equation*}
                 
-                Et que les isoclines sont la solution à \robin{Attention~: avec les accolades, on dirait que tu essayes de résoudre le système. Or si $A$ est inversible, la seule solution serait $x = [0, 0]^\top$ (qui est le seul ponit simultanément dans les deux isoclines)}~:
+                L'on peut déterminer les isoclines:
                 
-                \begin{equation*}
-                    \begin{cases}
-                        0 = a_{11}x_1 + a_{12} x_2\\
-                        0 = a_{21}x_1 + a_{22} x_2
-                    \end{cases}
-                    \Longleftrightarrow
-                    \begin{cases}
-                        a_{12} x_2 = -a_{11}x_1\\
-                        a_{22} x_2 = -a_{21}x_1
-                    \end{cases}
-                    \Longleftrightarrow
-                    \begin{cases}
-                        x_2 = -\frac{a_{11}}{a_{12}}x_1\\
-                        x_2 = -\frac{a_{21}}{a_{22}}x_1
-                    \end{cases}
-                \end{equation*}
+                \begin{align*}
+                    0 = a_{11}x_1 + a_{12} x_2\\
+                    0 = a_{21}x_1 + a_{22} x_2
+                \end{align*}
+                donc
+                \begin{align*}
+                    a_{12} x_2 = -a_{11}x_1\\
+                    a_{22} x_2 = -a_{21}x_1
+                \end{align*}
+                donc
+                \begin{align*}
+                    x_2 = -\frac{a_{11}}{a_{12}}x_1\\
+                    x_2 = -\frac{a_{21}}{a_{22}}x_1
+                \end{align*}
                 Ce qui nous donne une pente de $-\frac{a_{11}}{a_{12}}$ et $-\frac{a_{21}}{a_{22}}$ respectivement.
 
                 \begin{exercise}{Isoclines}

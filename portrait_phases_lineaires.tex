@@ -22,13 +22,13 @@
     
     \section{Points d'équilibre et stabilité}
         Insistons sur le fait que les définitions présentées dans cette section ont comme objective de former l'intuition: les définitions formelles ont été largement abordées au cours théorique, et la référence reste le syllabus théorique (\cite{infof305}). Nous référons l'étudiant·e au cours de Calcul Formel et Numérique et au cours de Mathématiques 2 (\cite{infof205}), où la notion de systèmes linéaire a largement été étudiée.
-        \begin{definition}{Point d'équilibre}
+        \begin{definition}{Point d'équilibre}\label{def:point_equilibre}
             Un point d'équilibre (ou \textit{point fixe}) est un point à partir duquel la trajectoire coïncide avec la condition initiale.
         \end{definition}
          Il répond à la condition $\dot{x} = 0$, étant donné que sa variation doit être nulle. Si $A$ est la matrice des coefficients du système étudié, et que $\det(A) \neq 0$, alors le seul état d'équilibre est $(0, 0)$. Sinon, il en existe d'autres.
          Une fois le(s) point(s) d'équilibre déterminés, on peut étudier la notion de stabilité. Comme vu au cours théorique, on dit qu'une trajectoire est \textit{stable} selon le critère de Liapounov si, pour tout point initial proche de cette trajectoire, les trajectoires qui en résultent restent dans un voisinage suffisamment petit autour de l'orbite au fil du temps. Autrement dit, si l'on perturbe légèrement un point sur cette orbite, la trajectoire de ce point perturbé restera à proximité de l'orbite initiale au lieu de s'en écarter indéfiniment. 
 
-        \begin{definition}{Système stable}
+        \begin{definition}{Système stable}\label{def:stabilite}
             Un système dynamique linéaire est dit \textbf{stable} si son mouvement libre est limité pour chaque valeur de la condition initiale.
         \end{definition}
 
@@ -79,7 +79,7 @@
         \begin{equation}
             A = \begin{bmatrix}1 & -2\\-2 & 1\end{bmatrix}
         \end{equation}
-        Cette visualisation peut être obtenue grâce au code python suivant :
+        Cette visualisation peut être obtenue grâce au code python suivant, et la figure résultante est donnée en figure \ref{fig:vecteurs_vitesse}:
         \inputminted{python}{codes/vecteurs_vitesse.py}
         
         \begin{figure}[ht!]
@@ -87,6 +87,16 @@
             \includegraphics[width=\textwidth]{images/vecteurs_vitesse.jpg}
             \caption{Exemple de vecteurs vitesse}
             \label{fig:vecteurs_vitesse}
+        \end{figure}
+
+    \codeword{Matplotlib} permet de tracer des vecteurs de flux par l'intermédiaire de la fonction \codeword{streamplot}. L'utilisation de cette fonction est proche de celle de \codeword{quiver} utilisée pour les vecteurs vitesse, mais permet une visualisation des trajectoires. Cependant, il n'est attendu de l'étudiant·e seulement d'être capable, à la main, de tracer les vecteurs vitesse et quelques trajectoires bien choisies. Un exemple d'utilisation de \codeword{streamplot} est donnée dans le code suivant, et la figure résultante est donnée en figure \ref{fig:vecteurs_flux}:
+    \inputminted{python}{codes/vecteurs_flux.py}
+        
+        \begin{figure}[ht!]
+            \centering
+            \includegraphics[width=\textwidth]{images/vecteurs_flux.jpg}
+            \caption{Exemple de vecteurs flux}
+            \label{fig:vecteurs_flux}
         \end{figure}
 
     
@@ -507,7 +517,7 @@
             Déterminer ces informations est cruciale pour le dessin qualitatif des trajectoires des systèmes dynamiques, en permettant d'anticiper l'évolution des états du système à partir de la configuration initiale.
             
     \section{Les isoclines et leur rôle dans la dynamique}
-        \begin{definition}{Isoclines}
+        \begin{definition}{Isoclines}\label{def:isocline}
             Les isoclines sont les courbes pour lesquelles l'une des dérivées du système est nulle.
         \end{definition}
         Elles sont essentielles pour comprendre la dynamique des trajectoires dans le portrait de phases :

@@ -1,8 +1,7 @@
 \documentclass[11pt, a4paper, openany]{book}
 \usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage[french]{babel}
-\usepackage{csquotes}
+\usepackage[T2A]{fontenc}
+\usepackage[russian,french]{babel}
 \usepackage[style=authoryear]{biblatex}
 \usepackage{graphicx}
 \usepackage{amsmath, amsfonts}
@@ -17,14 +16,16 @@
 \usepackage{hyperref}
 \usepackage{palatino}
 \usepackage{minted}
+\usepackage[protrusion = true, final]{microtype}
+\emergencystretch=1.5em
 \usemintedstyle{pastie}
 \setminted{breaklines, linenos, frame=lines, framesep=2mm, fontsize=\footnotesize}
-
+\usepackage{csquotes}
 \AtBeginDocument{\def\labelitemi{$\bullet$}}
 
 \newcommand\dd{\mathrm d}
 \newcommand\od[2]{\frac {\dd{#1}}{\dd{#2}}}
-\newcommand\nod[3]{\frac {\dd^{#3}{#1}}{\dd{#2}^{#3}}}
+\renewcommand\nod[3]{\frac {\dd^{#3}{#1}}{\dd{#2}^{#3}}}
 \newcommand\pd[2]{\frac {\partial {#1}}{\partial {#2}}}
 \DeclareMathOperator\Tr{Tr}
 \newcommand\robin[1]{{\textcolor{teal}{Robin~: #1}}}
@@ -149,16 +150,16 @@ Université Libre de Bruxelles, ULB}
 \pagenumbering{arabic}
 \tableofcontents
 
-\input{notation_sheet.tex}
 \input{introduction.tex}
 \input{equations_differentielles.tex}
 \input{portrait_phases_lineaires.tex}
 \input{portrait_phases_non_lineaires.tex}
 \input{machine.tex}
 \input{equations_aux_differences.tex}
+\input{monte_carlo.tex}
 \input{evenements_discrets.tex}
 \input{conclusion.tex}
-
+\input{notation_sheet.tex}
 \newpage
 \listoffigures
 \newpage

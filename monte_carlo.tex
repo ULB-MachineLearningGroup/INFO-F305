@@ -1,0 +1,125 @@
+\chapter{Simulation Monte Carlo}
+    \section{Introduction}
+        Les chapitres précédents ont permis à l'étudiant·e de se familiariser avec la simulation de systèmes déterministes, c'est-à-dire de systèmes dans lesquels le comportement peut être univoquement prédit en connaissant les conditions initiales. Dans le cas contraire, le système est dit \textit{stochastique}. De tels systèmes requièrent de nouveaux outils pour étudier leur comportement. Nous présentons une telle méthode, appelée \textit{simulation Monte Carlo}.
+        
+        Une simulation de Monte Carlo est une méthode statistique utilisée pour estimer le comportement d'un système complexe en modélisant l'incertitude de ses paramètres grâce à des tirages aléatoires. En répétant de nombreuses fois des simulations qui incluent des éléments de hasard, elle permet d'obtenir une approximation de l'impact de ces incertitudes sur les résultats. 
+        
+        La modélisation du système commence par la définition d'un modèle du problème à étudier, en identifiant les variables et les paramètres d'intérêt. Ensuite, les incertitudes sont représentées par des distributions de probabilité. Par exemple, si un temps avant un évènement varie, cette variation peut être modélisée par une distribution normale, exponentielle, ou autre. Pour chaque simulation, des tirages aléatoires sont effectués pour chaque paramètre incertain, en suivant la distribution définie. En utilisant les valeurs tirées, on simule le comportement du système et on enregistre les résultats. Ce processus est répété un grand nombre de fois afin de capturer un large échantillon de scénarios possibles. Finalement, une analyse statistique est effectuée sur les résultats des simulations pour estimer des métriques telles que la moyenne, l'écart-type, la distribution des résultats, ou des intervalles de confiance.
+
+    \section{Générateur uniforme}
+        Nous rappellerons quelques définitions essentielles pour la compréhension de cette section. Cependant, nous référons l'étudiant·e au cours de Probabilités et Statistique (\cite{mathf315_1, mathf315_2}) pour un aperçu plus extensif des notions utiles.
+
+        Le syllabus offre une explication extensive de la nécessité degénérateur de nombres uniformes (\cite{infof305}). Dans cette section, nous proposons des implémentations pour les méthodes expliquées dans le syllabus.
+        \subsection{Méthode de Neumann}
+            John von Neumann\footnote{John von Neumann était un mathématicien américano-hongrois né en 1903 et décédé en 1957. Ses contributions vont de la mécanique quantique à l'informatique théorique en passant par les sciences économiques. Son intérêt pour le développement de la méthode Monte Carlo date de la période de la Seconde Guerre Mondiale. Il a notamment participé au projet Manhattan.} a proposé, en étudiant les simulations Monte Carlo, qui nécessitaient bien entendu une méthode pour générer des nombres pseudo-aléatoires, la méthode qui a donné son nom(\cite{von195113}). Le code suivant en montre une implémentation.
+            \inputminted{python}{codes/von_neumann.py}
+            Cependant, lorsque le système atteint l'état $0$, il reste bloqué, c'est un état absorbant. 
+            
+        \subsection{Générateur congruentiel linéaire}
+            Rapidement après la méthode proposée par von Neumann, Lehmer\footnote{Derrick Lehmer était un mathématicien américain né en 1905 et décédé en 1991. Ses contributions concernent principalement des problèmes d'analyse et de théorie des nombres, pour lesquel il fut un pionnier dans l'utilisation d'ordinateurs et de méthodes numériques. Notamment, il travailla avec sa femme Emma Markovna Trotskaya comme opérateur sur l'ENIAC, le premier ordinateur Turing-complet entièrement éléctronique.} proposa un autre algorithme pour la génération de nombre suivant une distribution pseudo-aléatoire uniforme (\cite{lehmer1951}). Nous en montrons une implementation dans le code suivant.
+            \inputminted{python}{codes/LGC.py}
+            
+        \subsection{Test de \textit{randomness}}
+            Afin de vérifier si les générateurs de nombres pseudo-aléatoires que nous avons présentés sont fiables, en pratique, il est possible de réaliser des tests statistiques comparant la distribution des échantillons qu'ils produisent avec la distribution uniforme. Nous en présentons quelques implémentations.
+            \subsubsection{Test des moments}
+                \begin{definition}{Moment brut}
+                    Soit un échantillon $x_1, x_2, ..., x_n$ de réalisations d'une variable aléatoire $\mathbf{X}$. Le $n^{\text{ème}}, n \in \mathbb{N_0^+}$ \textbf{moment brut} autour de l'origine de $\mathbf{X}$ est donné par
+                    \begin{equation}
+                        \mathbb{E}(\mathbf{X}^n) = \int_{-\infty}^{+\infty} x^n f(x) \, dx
+                    \end{equation}
+                    
+                    Sa valeur peut être estimé par la fonction
+                    \begin{equation}
+                        \hat{m}_k = \frac1n \sum_{i=0}^n x_i^k
+                    \end{equation}
+                \end{definition}
+                Ainsi, on peut vérifier si les générateurs proposés pour la distribution uniforme sur $[0, 1]$ respectent les moments attendus. Le code suivant montre que le générateur congruentiel linéaire vérifie ce test.
+                \inputminted{python}{codes/moments_test.py}
+
+            \subsubsection{Test $\chi^2$}
+                Si l'on divise l'intervalle $[0, 1]$ en $s$ sous-intervalles de taille égale, et que l'échantillon de taille $N$ que l'on étudie respecte une distribution uniforme, alors, chaque sous-intervalle devrait contenir, en moyenne, $s/N$ éléments. Soit $c_j$ le nombre mesuré d'éléments dans le sous-intervalle $j$. On peut quantifier la quantité
+                \begin{equation}
+                    C = \frac{s}{N} \sum_{j=1}^s (c_j - \frac{N}{s})^2
+                \end{equation}
+                qui est une mesure de la concordance entre le nombre d'éléments attendus et le nombre d'éléments mesurés. 
+
+                Si l'échantillon respectent une distribution uniforme, alors la quantité $C$ est distribuée comme une variable $\chi^2$ à $s-1$ degrés de liberté (on réfèrera l'étudiant·e au cours de statistiques (\cite{mathf315_2})). Le module \codeword{scipy.stats} propose une classe \codeword{chi2}. La méthode \codeword{cdf(aC, s)} de cette classe permet d'obtenir la p-value, c'est-à-dire la probabilité sous l'hypothèse nulle d'observer une valeur aussi extrême que celle obtenue. L'hypothèse nulle décrite ici est l'hypothèse d'uniformité. Si cette p-value est en-dessous d'un seuil critique choisi (typiquement, 5\%), alors on rejette l'hypothèse nulle, parce qu'il est très peu probable qu'en vérifiant l'hypothèse on obtienne la valeur observée. Un exemple est donné dans le code suivant.
+                \inputminted{python}{codes/chi2_test.py}
+
+            \subsubsection{Goodness of fit}
+                \begin{definition}{Fonction de répartition empirique}
+                    Soit un échantillon $x_1, x_2, ..., x_N$ \textbf{fonction de répartition empirique} est donnée par
+                    \begin{equation}
+                        \hat{F}_{\mathbf{X}}(x) = \frac{\#x_i < x}{N}
+                    \end{equation}
+                \end{definition}
+
+                Intuitivement, le test de Kolmogorov-Smirnov compare cette fonction de répartition empirique avec la fonction de répartition théorique en donnant comme estimation le plus grand écart entre ces deux fonctions. La fonction de répartition d'une distribution uniforme est donnée dans le module \codeword{scipy.stats}, mais l'on laissera l'implémentation complète à l'étudiant·e. Le même module offre une fonction macro \codeword{kstest}. On montre dans le code suivant comment vérifier l'uniformité grâce à ce test.
+                \inputminted{python}{codes/goodness_of_fit.py}
+            
+    \section{Générateur aléatoire}
+        Le syllabus démontre déjà comment obtenir certaines distribution en modifiant un échantillon d'une distribution uniforme. Nous renvoyons l'étudiant·e vers la démonstration de la méthode de la transformation inverse, pour les distributions uniforme sur un autre intervalle que $[0, 1]$ et pour une distribution exponentielle.
+        \subsection{Méthode de rejet}
+            La méthode de rejet, proposée par von Neumann en 1951, permet d'échantillonner une variable aléatoire qui suit une distribution cible $p_{\mathbf{X}}(x)$.
+            Nous voulons échantillonner une telle distribution.
+            Admettons que nous ayons un générateur de nombre aléatoire qui échantillonne une distribution suivant une densité $q(x)$. Si il existe un nombre $C>0$ tel que $\forall x, Cq(x) \geq p_{\mathbf{X}}(x)$, autrement dit, que $q(x)$ \textit{est strictement supérieure} en tout point à $p_{\mathbf{X}}(x)$, à un facteur près, alors la méthode de rejet est la suivante:
+            \begin{itemize}
+                \item Échantillonner une valeur $x$ suivant $q(x)$
+                \item Échantillonner une valeur $u$ suivant une distribution indépendante de $q(x)$, typiquement, une distribution uniforme $\mathbf{U}(0, 1)$
+                \item Renvoyer $x$ si $u \leq \frac{p_{\mathbf{X}}(x)}{C q(x)}$, sinon, recommencer
+            \end{itemize}
+            Comment calculer le dernier quotient ? La fonction de densité uniforme est de $1$, et la fonction de densité objective est connue. Donc, dans le cas où l'on choisit $q(x)$ uniforme, le quotient est donné par $\frac{p_{\mathbf{X}}(x)}{C}$.
+            
+            Il va de soi que ce processus fonctionne si il existe une fonction qui recouvre la densité attendue. Par exemple, les générateurs de distribution uniforme proposés précédemment ne pourraient pas être utilisés pour échantillonner une distribution normale, car sa fonction de densité a une enveloppe infinie (pensez aux queues: comment un rectangle fini pourrait les contenir ?).
+
+    \section{Exercices}
+        \subsection{Méthode de rejet}
+            \subsubsection{Densité carrée}
+                \begin{exercise}{Densité carrée}
+                    Écrivez le code python permettant d'échantillonner une distribution décrite par la densité suivante, par la méthode de rejet. Vous pouvez utiliser le générateur uniforme proposé par \codeword{numpy.random}.
+                    \begin{equation}
+                        p(x) = 
+                        \begin{cases}
+                            x^2 \text{ si $0\leq x\leq 3^{\frac13}$}\\
+                            0 \text{ sinon}
+                        \end{cases}
+                    \end{equation}
+                    Vérifiez analytiquement que la distribution suivant cette densité est correctement normalisée.
+                \end{exercise}
+                Le code suivant montre la solution. En figure \ref{fig:exercice_rejet_1}, on montre l'histogramme de l'échantillon produit par cette méthode.
+                \inputminted{python}{codes/exercice_rejet_1.py}
+                \begin{figure}[ht!]
+                    \centering
+                    \includegraphics[width=0.7\textwidth]{images/exercice_rejet_1.jpg}
+                    \caption{Histogramme de l'échantillon d'une distribution suivant la loi carrée demandée}
+                    \label{fig:exercice_rejet_1}
+                \end{figure}
+
+            \subsubsection{Densité sinusoïdale}
+                \begin{exercise}{Densité carrée}
+                    Écrivez le code python permettant d'échantillonner une distribution décrite par la densité suivante, par la méthode de rejet. Vous pouvez utiliser le générateur uniforme proposé par \codeword{numpy.random}.
+                    \begin{equation}
+                        p(x) = 
+                        \begin{cases}
+                            \frac{\sin x}{2} \text{ si $0\leq x\leq \pi$ ou si  $2\pi\leq x\leq 3\pi$}\\
+                            0 \text{ sinon}
+                        \end{cases}
+                    \end{equation}
+                \end{exercise}
+                Le code suivant montre la solution. En figure \ref{fig:exercice_rejet_2}, on montre l'histogramme de l'échantillon produit par cette méthode.
+                \inputminted{python}{codes/exercice_rejet_2.py}
+                \begin{figure}[ht!]
+                    \centering
+                    \includegraphics[width=0.7\textwidth]{images/exercice_rejet_2.jpg}
+                    \caption{Histogramme de l'échantillon d'une distribution suivant la loi sinusoïdale demandée}
+                    \label{fig:exercice_rejet_2}
+                \end{figure}
+    
+
+    \section{Simulation Monte Carlo}
+        \subsection{Exemple classique}
+            \subsubsection{Estimation d'une intégrale définie}
+
+        \subsection{Étude statistique d'un système dynamique stochastique}
+    
+    \section{Exercices}

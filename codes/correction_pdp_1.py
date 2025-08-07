@@ -7,7 +7,7 @@ def trajectoire(A, interval, c_i):
     def xdot(t, x):
         return A @ x
     sol = solve_ivp(xdot, interval, c_i, t_eval=np.linspace(interval[0], interval[1], 250))
-    plt.plot(sol.y[0, :], sol.y[1, :], label=f"Trajectoire (x(0) = {c_i})")
+    plt.plot(sol.y[0, :], sol.y[1, :], label="Trajectoire ("+r"$\dot{x}(0)$"+f" = {c_i})")
 
 A = np.array([[3, 1], [1, 3]])
 plt.figure(figsize=(12, 12))

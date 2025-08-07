@@ -6,7 +6,7 @@
 
         Ce chapitre vise à fournir les outils nécessaires pour comprendre, formuler et résoudre des équations aux différences, en particulier celles de premier ordre et celles linéaires d'ordre supérieur. Nous allons aborder les notions fondamentales, de la définition et de la forme générale d'une équation aux différences, jusqu’à la solution de systèmes linéaires et la compréhension des phénomènes de stabilité et de convergence des solutions.
         
-        Nous commencerons par explorer les notions fondamentales des équations aux différences d’ordre supérieur. Puis, nous présenterons des théorèmes sur l'existence et l'unicité des solutions, ainsi que des méthodes de résolution pour les équations linéaires homogènes et non homogènes. Les concepts de solution particulière, solution homogène, et solution générale seront abordés en détails. La fin du chapitre sera dédiée à l’étude de la stabilité des solutions et aux techniques de résolution des équations aux différences à coefficients constants. \robin{A confirmer, mais normalement ces notions ont déjà été vues en math discrètes.}
+        Nous commencerons par explorer les notions fondamentales des équations aux différences d’ordre supérieur. Puis, nous présenterons des théorèmes sur l'existence et l'unicité des solutions, ainsi que des méthodes de résolution pour les équations linéaires homogènes et non homogènes. Les concepts de solution particulière, solution homogène, et solution générale seront abordés en détails. La fin du chapitre sera dédiée à l’étude de la stabilité des solutions et aux techniques de résolution des équations aux différences à coefficients constants. Ces notions sont abordées dans le cours de Mathématiques Discrètes (\cite{mathf305}).
         
     \section{Rappels théoriques}
         \subsection{Équations aux différences}
@@ -44,9 +44,9 @@
 
             Pour obtenir une solution particulière à une équation aux différences donnée, il est nécessaire de fixer son comportement pour des instants donnés. Ces valeurs correspondent aux conditions initiales.
             \begin{definition}{Condition initiale}
-                La condition initiale d'une équation aux différences linéaire d’ordre $n$ est le vecteur \robin{Attention tu as introduit la notation $x_k = x(k)$ un peu au-dessus, et ici tu as $x_0$ qui ne correspond pas à $x(0)$.}
+                La condition initiale d'une équation aux différences linéaire d’ordre $n$ est le vecteur
                 \begin{equation}
-                    x_0 = (x(0), x(1), \dots, x(n-1))^\top
+                    (x(0), x(1), \dots, x(n-1))^\top
                 \end{equation}
                 de taille $(n,1)$. Ce vecteur spécifie les valeurs de départ nécessaires pour déterminer la solution de l'équation.
             \end{definition}
@@ -59,8 +59,9 @@
                         x(k) = x^{(p)}(k)+x^{(h)}(k)
                     \end{equation}
                 \end{theorem}
-                Lorsqu'elle sont linéairement indépendantes, ces solutions forment une base dans l'espace des solutions \robin{il faut qu'elles soient génératrices aussi}. Autrement dit, une combinaison linéaire de ces solutions reste une solution. \robin{C'est vrai dans le cas des équations homogènes. Dans le cas non-homogène, la solution est un espace \emph{affin} (translation d'un espace vectoriel) qui du coup n'est pas stable par combinaisons linéaires. Les solutions $x^{(h)}$ forment donc un espace vectoriel $S$ et $x^{(p)} + S$ est l'espace affin des solutions de l'équation non-homogène. En particulier, si $x^{(p)}$ et $\tilde x^{(p)}$ sont eux solutions à l'équation générale, alors $\tilde x^{(h)} - x^{(h)}$ est solution à l'équation homogène associée.} \robin{Ah bah c'est écrit en-dessous\ldots{} Fais tout de même attention à la formulation du paragraphe entre les deux boxes.}
-                \begin{theorem}{Principe de superposition}
+                
+                Lorsqu'elle sont linéairement indépendantes et génératrices, ces solutions forment une base dans l'espace des solutions. Autrement dit, une combinaison linéaire de ces solutions reste une solution, tout du moins pour une équation homogène.
+                \begin{theorem}
                     Si $x^{(1)}(k), x^{(2)}(k), \dots, x^{(m)}(k)$ sont solutions de l'équation homogène, alors toute combinaison linéaire
                     \begin{equation}
                         c_1 x^{(1)}(k)+c_2 x^{(2)}(k)+\cdots+c_m x^{(m)}(k)
@@ -140,13 +141,13 @@
                 \end{equation}
                 où $c_1$ et $c_2$ sont des constantes déterminées par les nouvelles conditions initiales données.
 
-                \robin{P-ê comparer avec la solution générale qui est $x(k) = k\ x(1) - x(0)$ puisque~:
-                \begin{align*}
-                    x(k+2)-2x(k+1)+x(k) &= (k+2)x(1) - x(0) - 2(k+1)x(1) + 2x(0) + kx(1) - x(0) \\
-                    &= (k - 2(k+1) + k)x(1) - (1 - 2 + 1)x(0) \\
-                    &= 0.
-                \end{align*}
-                }
+                %\robin{P-ê comparer avec la solution générale qui est $x(k) = k\ x(1) - x(0)$ puisque~:
+                %\begin{align*}
+                %    x(k+2)-2x(k+1)+x(k) &= (k+2)x(1) - x(0) - 2(k+1)x(1) + 2x(0) + kx(1) - x(0) \\
+                %    &= (k - 2(k+1) + k)x(1) - (1 - 2 + 1)x(0) \\
+                %    &= 0.
+                %\end{align*}
+                %}
     
         \subsection{Polynôme caractéristique}
             Pour résoudre une équation aux différences linéaire homogène à coefficients constants, nous introduisons deux notions fondamentales: le \textit{polynôme caractéristique} et l'\textit{équation caractéristique}. Ces concepts permettent de trouver les solutions en exploitant les racines de l'équation caractéristique.
@@ -190,7 +191,7 @@
                     Par conséquent, toutes les solutions de l'équation \eqref{eq:eq_lineaire_homogene_coef_constants} peuvent s'exprimer comme des combinaisons linéaires des solutions indépendantes mentionnées ci-dessus.
                 \end{theorem}
                 Lorsqu'il existe des solutions complexes conjuguées $\lambda = a \pm ib$, la solution peut être réécrite sous une forme réelle utilisant les fonctions cosinus et sinus.
-                Si les coefficients $a_0 \neq 0, a_1, \dots, a_{n-1}$ \robin{Pourquoi tu as besoin que $a_0 \neq 0$~?} sont réels et que $\lambda = a \pm ib$ sont deux solutions complexes conjuguées de l'équation caractéristique, alors les solutions linéairement indépendantes sont données par:
+                Si les coefficients $a_0, a_1, \dots, a_{n-1}$ sont réels et que $\lambda = a \pm ib$ sont deux solutions complexes conjuguées de l'équation caractéristique, alors les solutions linéairement indépendantes sont données par:
                 \begin{equation}
                     \begin{cases}
                         w(k) = \rho^k \cos(\theta k) \\ 
@@ -281,7 +282,7 @@
                 \end{equation}
                 \item En revanche, si $a_n+a_{n-1}+\dots+a_0 = 0$:
                 \begin{itemize}
-                    \item Si $b = 0$, chaque $\bar{x}$ est un point d'équilibre (il y a une infinité de solutions \robin{Plus précisément~: toute valeur $\bar x$ donne une solution stable $k \mapsto \bar x$}).
+                    \item Si $b = 0$, chaque $\bar{x}$ est un point d'équilibre (il y a une infinité de solutions.
                     \item Si $b \neq 0$, il n'existe aucun point d'équilibre (ce qui est une contradiction).
                 \end{itemize}
             \end{itemize}
@@ -296,12 +297,12 @@
                 c'est-à-dire que des états initiaux proches de l'équilibre produisent des trajectoires qui restent proches de cet équilibre.
             \end{definition}
             \begin{definition}{Équilibre asymptotiquement stable}
-                Un équilibre $\bar{x}$ est dit asymptotiquement stable si, pour tout $n$-uplet d'états initiaux $\{x(0), x(1), \dots, x(n-1)\}$ \robin{c'est un ensemble que tu donnes, pas un tuple}, la solution correspondante vérifie:
+                Un équilibre $\bar{x}$ est dit asymptotiquement stable si, pour tout $n$-uplet d'états initiaux $(x(0), x(1), \dots, x(n-1))$, la solution correspondante vérifie:
                 \begin{equation}
                     \lim_{k \to \infty} x(k) = \bar{x}
                 \end{equation}
             \end{definition}
-            En d'autres termes, la stabilité asymptotique garantit que les trajectoires initialement proches de l'équilibre non seulement restent proches mais convergent vers cet équilibre. \robin{Et c'est le cas, même pour des conditions initiales arbitrairement loin de $\bar x$.}
+            En d'autres termes, la stabilité asymptotique garantit que les trajectoires initialement proches de l'équilibre non seulement restent proches mais convergent vers cet équilibre. On parle de stabilité asymptotique locale.
             
             \subsubsection{Critère de stabilité via l'équation caractéristique}
                 Pour une équation aux différences linéaire du type présenté précédemment, la stabilité de l'équilibre peut être déterminée en examinant les racines de l'équation caractéristique associée.
@@ -389,9 +390,9 @@
                 \end{enumerate}
          \subsection{Exercice 3}
             \begin{exercise}{Exercice 3}
-                Calculer les solutions du système suivant: \robin{Au vu de la résolution, tu ne devrais pas avoir $2^k$ dans le RHS~?}
+                Calculer les solutions du système suivant:
                 \begin{equation}
-                    x(k+2)-4x(k+1)+3x(k) = 2k
+                    x(k+2)-4x(k+1)+3x(k) = 2^k
                 \end{equation}
             \end{exercise}
             \begin{enumerate}
@@ -432,9 +433,9 @@
     
          \subsection{Exercice 4}
             \begin{exercise}{Exercice 4}
-                Calculer les solutions du système suivant: \robin{Idem pour $b^k$}
+                Calculer les solutions du système suivant:
                 \begin{equation}
-                    x(k+2)-4x(k+1)+3x(k) = bk, \quad b \neq 1, \, b \neq 3
+                    x(k+2)-4x(k+1)+3x(k) = b^k, \quad b \neq 1, \, b \neq 3
                 \end{equation}
             \end{exercise}
             \begin{enumerate}
@@ -461,7 +462,7 @@
             \end{enumerate}
     \section{Équations linéaires affines à un pas}
         \begin{definition}{Équation affine aux différences linéaires d'ordre 1 à coefficients constants}
-            Soient $a\in \mathcal{R}, a\neq 0, b\in \mathcal{R}$ \robin{mathcal R~?}, deux constantes. L'équation
+            Soient $a\in \mathbb{R}, a\neq 0, b\in \mathbb{R}$, deux constantes. L'équation
             \begin{equation}\label{eq:equation_affine_constant}
                 x(k+1) = ax(k)+b
             \end{equation}
@@ -483,12 +484,12 @@
                 \end{itemize}
             \end{itemize}
         \end{theorem}
-        \robin{Les itérations de fonction et le comportement asymptotique a été vu en F205 dans le cadre de la recherche de racines de fonctions non-linéaires, tu peux faire un lien ici.}
+        Rappelons que, dans le cours de Calcul Formel et Numérique, le comportement asymptotique et les itérations de fonctions ont été abordées dans le cadre de la recherche de racines de fonctions non-linéaires (\cite{infof205}).
         
         \subsection{Exemples}
             La visualisation des trajectoires peut être obtenue en traçant $x(k+1)$ en fonction de $x(k)$, et en fixant une condition initiale $x(0)$. Graphiquement:
             \begin{itemize}
-                \item on détermine la position $x(0)$ sur la droite $x(k)$ \robin{Attention à la formulation, c'est la droite donnée par $y = f(x)$ où $f = f_{a,b}$ est la fonction qui satisfait $x(k+1) = f(x(k))$}~;
+                \item on détermine la position $x(0)$ sur la droite  donnée par $y = f(x)$ où $f = f_{a,b}$ est la fonction qui satisfait $x(k+1) = f(x(k))$;
                 \item on projette ce point sur la droite d'équation $x(k+1) = ax(k)+b$~;
                 \item on projette le point obtenu sur la droite d'équation $x(k+1)=x(k)$~;
                 \item la coordonnée $x(k)$ du point obtenu correspond à $x(1)$~;
@@ -536,7 +537,7 @@
             \caption{Équation non-linéaire à un pas}
             \label{fig:un_pas_2}
         \end{figure}
-        Cette notion de composition peut être formalisée avec la notation exponentielle: comme $x(k+1) = f(x(k))$, on peut noter 
+        Cette notion de composition peut être formalisée avec la notation itérative: comme $x(k+1) = f(x(k))$, on peut noter 
         \begin{equation}
             \begin{split}
                 x(1) = f(x(0)) \\
@@ -545,13 +546,13 @@
                 x(n) = f(f(\dots f(x(0)))) = f^n(x(0))
             \end{split}
         \end{equation}
-        Attention à la notation. Distinguons $f^n(x)$, la \textit{$n^e$ composée de $f$}, $(f(x))^n$, la \textit{$n^e$ puissance de $f$} et $f^{(n)}(x)$, la \textit{$n^e$ dérivée de $f$}. \robin{Et évidemment on garde les notations $\cos^k$, $\sin^k$, $\log^k$, etc. pour les puissances et pas pour la composition sinon ce serait trop simple\ldots}
+        Attention à la notation. Distinguons $f^n(x)$, la \textit{$n^e$ composée de $f$}, $(f(x))^n$, la \textit{$n^e$ puissance de $f$} et $f^{(n)}(x)$, la \textit{$n^e$ dérivée de $f$}. 
 
     \section{États d'équilibre}
         Comme dans le cas à temps continu, les points fixes ou états d'équilibre jouent un rôle important dans la description de la dynamique des systèmes.
 
         \begin{definition}{État d'équilibre}
-            L’état $\bar{x}$ est un état d’équilibre (ou point fixe) du système $\{f, I\}$ \robin{Tu n'as pas défini la notion de \emph{système} (et à nouveau un ensemble n'est pas top, une paire ordonnée est mieux définie)} si
+            L’état $\bar{x}$ est un état d’équilibre (ou point fixe) du système $f(\cdot)$ si
             \begin{equation}
                 \bar{x} = f(\bar{x})
             \end{equation}
@@ -569,7 +570,7 @@
 
     \subsection{Stabilité de l'équilibre dans les cas du premier ordre}
         \begin{definition}{Équilibre stable}
-            L'équilibre est stable si pour chaque $\epsilon > 0$ il existe une constante $\delta > 0$ telle que \robin{Il manque ton quantificateur sur $k$ quelque part}
+            L'équilibre est stable si pour chaque $\epsilon > 0$ il existe une constante $\delta > 0$ telle que, $\forall k$,
             \begin{equation}
                 |x(0) - \bar{x}| < \delta \Rightarrow |x(k) - \bar{x}| < \epsilon
             \end{equation}
@@ -589,7 +590,7 @@
 
         \subsection{Cycles}
             \begin{definition}{Cycle d'ordre $n$}
-                Soit donné un système discret $\{f, I\}$. Un cycle d'ordre $s$ est un ensemble de $s$ valeurs différentes $\{\bar{x}_0, \dots, \bar{x}_{s-1}\}$ telles que
+                Soit donné un système discret $f(\cdot)$. Un cycle d'ordre $s$ est un ensemble de $s$ valeurs différentes $\{\bar{x}_0, \dots, \bar{x}_{s-1}\}$ telles que
                 \begin{equation}
                     \bar{x}_1 = f(\bar{x}_0), \quad \bar{x}_2 = f(\bar{x}_1), \dots, \quad \bar{x}_0 = f(\bar{x}_{s-1})
                 \end{equation}
@@ -597,7 +598,7 @@
             La quantité $s$ est la période de l’orbite. Par exemple, le système non linéaire $\left\{ \frac{1}{x}, (0, +\infty) \right\}$ a un seul équilibre mais un nombre infini de trajectoires de période $2$.
         
             \begin{theorem}{Condition d'existence d'un cycle}
-                Considérons le système discret $\{f, I\}$. La paire $\{\bar{x}_0, \bar{x}_1\}$ est un cycle d'ordre $2$ si et seulement si $\bar{x}_0$ et $\bar{x}_1$ sont des points d'équilibre de $\{f^2, I\}$ mais pas de $\{f, I\}$.
+                Considérons le système discret $f(\cdot)$. La paire $\{\bar{x}_0, \bar{x}_1\}$ est un cycle d'ordre $2$ si et seulement si $\bar{x}_0$ et $\bar{x}_1$ sont des points d'équilibre de $\{f^2, I\}$ mais pas de $f(\cdot)$.
             \end{theorem}
             Par exemple, le système à temps discret
             \begin{equation}
@@ -606,7 +607,7 @@
             a un cycle d’ordre $3$ formé par les valeurs $\bar{x}_0 = 0$, $\bar{x}_1 = 1$, $\bar{x}_2 = 2$.
         \subsection{Conditions de stabilité}
         \begin{theorem}{Conditions de stabilité}
-            Si $\bar{x}$ est un équilibre du système $\{f, I\}$, où $f \in C^1(I)$, alors
+            Si $\bar{x}$ est un équilibre du système $f(\cdot)$, où $f \in C^1(I)$, alors
             \begin{itemize}
                 \item $|f'(\bar{x})| < 1 \Rightarrow \bar{x}$ est localement asymptotiquement stable,
                 \item $|f'(\bar{x})| > 1 \Rightarrow \bar{x}$ est instable,
@@ -614,21 +615,20 @@
             \end{itemize}
         \end{theorem}
         \begin{theorem}{Équilibre asymptotiquement stable d'une part et stable d'autre part}
-            Soit $\bar{x}$ un équilibre du système $\{f, I\}$, où $f \in C^2(I)$ et $f'(\bar{x}) = 1$. Alors
-            \robin{Inférieurement/supérieurement asymptotiquement (in)stable pas définis.}
+            Soit $\bar{x}$ un équilibre du système $f(\cdot)$, où $f \in C^2(I)$ et $f'(\bar{x}) = 1$. Alors
             \begin{itemize}
-                \item $f''(\bar{x}) > 0 \Rightarrow \bar{x}$ est inférieurement asymptotiquement stable et supérieurement instable (ou répulsif),
+                \item $f''(\bar{x}) > 0 \Rightarrow \bar{x}$ est inférieurement\footnote{Rappelons que les notions d'inférieur et de supérieur ont abordées au cours de Mathématiques (\cite{mathf117}).} asymptotiquement stable et supérieurement instable (ou répulsif),
                 \item $f''(\bar{x}) < 0 \Rightarrow \bar{x}$ est supérieurement asymptotiquement stable et inférieurement instable (ou répulsif).
             \end{itemize}
         \end{theorem}
         \begin{theorem}{Équilibre instable ou localement asymptotiquement stable}
-            Soit $\bar{x}$ un équilibre du système $\{f, I\}$, où $f \in C^3(I)$, $f'(\bar{x}) = 1$ et $f''(\bar{x}) = 0$. Alors
+            Soit $\bar{x}$ un équilibre du système $f(\cdot)$, où $f \in C^3(I)$, $f'(\bar{x}) = 1$ et $f''(\bar{x}) = 0$. Alors
             \begin{itemize}
                 \item $f'''(\bar{x}) > 0 \Rightarrow \bar{x}$ est instable,
                 \item $f'''(\bar{x}) < 0 \Rightarrow \bar{x}$ est localement asymptotiquement stable.
             \end{itemize}
             
-            Soit $\bar{x}$ un équilibre du système $\{f, I\}$, où $f \in C^3$, $f(\bar{x}) = \bar{x}$ et $f'(\bar{x}) = -1$. Alors
+            Soit $\bar{x}$ un équilibre du système $f(\cdot)$, où $f \in C^3$, $f(\bar{x}) = \bar{x}$ et $f'(\bar{x}) = -1$. Alors
             \begin{itemize}
                 \item $2f'''(\bar{x}) + 3 (f''(\bar{x}))^2 > 0 \Rightarrow \bar{x}$ est localement asymptotiquement stable,
                 \item $2f'''(\bar{x}) + 3 (f''(\bar{x}))^2 < 0 \Rightarrow \bar{x}$ est instable.
@@ -637,13 +637,13 @@
 
     \section{Exercice} 
         \begin{exercise}{Exercice}
-            Trouver les cycles \robin{d'ordre 2~?} du système suivant :
+            Trouver les cycles d'ordre 2 du système suivant :
             \begin{equation}
                 x(k + 1) = x(k)^2 - 1
             \end{equation}
         \end{exercise}
         \begin{enumerate}
-            \item Trouver les points d’équilibre du système $\{f, I\}$ :  
+            \item Trouver les points d’équilibre du système $f(\cdot)$ :  
             Nous devons résoudre l’équation 
             \begin{equation}
                 x = x^2 - 1,
@@ -676,7 +676,7 @@
             \begin{equation}
                 \bar{x}_0 = 0, \quad \bar{x}_1 = -1, \quad \bar{x}_2 = \frac{1 + \sqrt{5}}{2}, \quad \bar{x}_3 = \frac{1 - \sqrt{5}}{2}.
             \end{equation}
-            Les points $\bar{x}_0 = 0$ et $\bar{x}_1 = -1$ sont donc des points d’équilibre de $f^2$ mais pas de $f$. Ils forment donc un cycle d’ordre $2$ du système $\{f, I\}$.
+            Les points $\bar{x}_0 = 0$ et $\bar{x}_1 = -1$ sont donc des points d’équilibre de $f^2$ mais pas de $f$. Ils forment donc un cycle d’ordre $2$ du système $f(\cdot)$.
         \end{enumerate}
     \section{Fonction logistique discrète}
         Le système logistique est un système caractérisé par une fonction de transition paramétrique
@@ -690,7 +690,7 @@
             a x (1 - x) = x
         \end{equation}
         Les racines sont $ \bar{x}_1 = 0 $ et le point $\bar{x}_2 = \frac{a - 1}{a}$ pour $1 < a \leq 4$.
-        Notons aussi que les trajectoires ayant comme conditions initiales $x(0) = 1$ \robin{$f_a(1) = 0$. C'est $x(0)=0$} et $x(0) = \frac{1}{a}$ sont constantes pour $k \geq 1$.
+        Notons aussi que les trajectoires ayant comme conditions initiales $x(0) = 0$ et $x(0) = \frac{1}{a}$ sont constantes pour $k \geq 1$.
         Au fur et à mesure que le paramètre $a$ augmente, le comportement qualitatif du système change fortement.
         Afin de l’analyser, il est important de tenir en considération que
         \begin{equation}
@@ -743,7 +743,7 @@
 
             \subsubsection{Exemple: $a = 3$}
                 L’équilibre est localement asymptotiquement stable pour $a = 3$.
-                Une trajectoire est donnée en Figure \ref{fig:logistique_differences_5}.
+                Une trajectoire est donnée en Figure \ref{fig:logistique_differences_5}. Le même code que celui présenté en section précédente a été utilisé pour générer les figures.
                 \begin{figure}[ht!]
                     \centering
                     \includegraphics[width=\textwidth]{images/logistique_differences_5.jpg}

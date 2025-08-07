@@ -4,6 +4,7 @@ from scipy.integrate import solve_ivp
 
 def portrait_de_phase(A):
     plt.figure(figsize=(12, 12))
+    vecteurs_flux(A)
     vecteurs_propres(A)
     isoclines(A)
     vecteurs_vitesse(A)
