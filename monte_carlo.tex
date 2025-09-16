@@ -58,7 +58,31 @@
                 \inputminted{python}{codes/goodness_of_fit.py}
             
     \section{Générateur aléatoire}
-        Le syllabus démontre déjà comment obtenir certaines distribution en modifiant un échantillon d'une distribution uniforme. Nous renvoyons l'étudiant·e vers la démonstration de la méthode de la transformation inverse, pour les distributions uniforme sur un autre intervalle que $[0, 1]$ et pour une distribution exponentielle.
+        Le syllabus démontre déjà comment obtenir certaines distribution en modifiant un échantillon d'une distribution uniforme. Nous renvoyons l'étudiant·e vers la démonstration de la méthode de la transformation inverse, pour les distributions uniforme sur un autre intervalle que $[0, 1]$ et pour une distribution exponentielle. Cependant, nous rappelons le fonctionnement de la méthode de la transformation inverse ainsi que de la méthode de rejet.
+
+        \subsection{Méthode de la transformation inverse}
+            Soit $\mathbf{X}$ une variable aléatoire avec une fonction de répartition monotone non-décroissante $F_{\mathbf{X}}(x)$. Le syllabus montre en quoi la variable $\mathbf{Y} = F_{\mathbf{X}}(x)$ est toujours distribuée uniformément sur $[0, 1]$. Autrement dit, si l'on sait échantillonner une distribution uniforme sur $[0, 1]$ (ce qui a déjà été montré), on peut utiliser l'inverse de cette fonction de répartition pour obtenir un échantillon suivant la densité $p_{\mathbf{X}}(x)$.
+
+            Par exemple, soit $\mathbf{X}$ une variable aléatoire distribuée uniformément sur l'intervalle $[-1, 1]$. La fonction de répartition de cette variable aléatoire est donnée par
+            \begin{equation}
+                F_{\mathbf{X}(x- = \frac{x-(-1)}{1-(-1)} = \frac{x+1}{2}}
+            \end{equation}
+            Soit $u$ un échantillon d'une variable aléatoire uniforme sur $[0, 1]$, alors, par la méthode inverse, on a
+            \begin{equation}
+                u = \frac{x+1}{2} \Leftrightarrow x = 2u - 1
+            \end{equation}
+            Donc, si l'on a échantillonné les valeurs suivantes par une méthode de génération pseudo-aléatoire comme présentée précédemment: $[0.423, 0.283, 0.913, 0.559, 0.925]$, la méthode de la transformation inverse les projette sur $[-0.154, -0.434,  0.826,  0.118,  0.85]$. Le script suivant génère $1000000$ valeurs échantillonnées dans une distribution uniforme sur $[0, 1]$, utilise la méthode de la transformation inverse pour les projeter sur la distribution donnée en exemple précédent, et en affiche l'histogramme, donné en figure \ref{fig:inverse_example}.
+            \inputminted{python}{codes/inverse_example.py}
+            \begin{figure}[h!]
+                \centering
+                \includegraphics[width=0.8\linewidth]{images/inverse_example.jpg}
+                \caption{Histogramme des valeurs obtenue par la méthode de la transformation inverse pour une variable aléatoire uniformément distribuée sur $[-1, 1]$}
+                \label{fig:inverse_example}
+            \end{figure}
+
+            Le module \codeword{SymPy} propose les fonctions \codeword{solve} et \codeword{lambdify} qui permet, en utilisant du calcul symbolique, d'inverse n'importe quelle fonction de répartition automatiquement (\cite{Simpy2023}). Le code suivant montre comment l'exemple précédent peut être implémenté en \codeword{SymPy}. Le raisonnement utilisé se base sur l'observation que si $f(x) = y \Leftrightarrow f(x) - y = 0$, alors résoudre cette équation pour $x$ donne l'inverse additif de la fonction $f$.
+            \inputminted{python}{codes/inverse_lambda.py}
+        
         \subsection{Méthode de rejet}
             La méthode de rejet, proposée par von Neumann en 1951, permet d'échantillonner une variable aléatoire qui suit une distribution cible $p_{\mathbf{X}}(x)$.
             Nous voulons échantillonner une telle distribution.
@@ -114,12 +138,91 @@
                     \caption{Histogramme de l'échantillon d'une distribution suivant la loi sinusoïdale demandée}
                     \label{fig:exercice_rejet_2}
                 \end{figure}
-    
+
+            \subsection{Transformation d'échantillon}
+                \begin{exercise}{Transformation d'échantillon}
+                    Soit $[0.75, 0.43, 0.39, 0.65, 0.17]$ une série de 5 nombres pseudo-aléatoires générés par un générateur uniforme entre 0 et 1. Utiliser cette série afin de générer par transformation inverse 5 nombres pseudo-aléatoires distribués selon la densité de probabilité
+                    \begin{equation}
+                        p(x)=
+                        \begin{cases}
+                            \frac{2}{a}(1-\frac{x}{a})\text{ si $0\leq x\leq a$}\\
+                            0 \text{ ailleurs}
+                        \end{cases}
+                    \end{equation}
+                    pour $a=1$ et $a=4$.
+                \end{exercise}
+                Nous donnons la solution pour $a=1$. La fonction de répartition est donnée par
+                \begin{equation}
+                    F(x)=
+                    \begin{cases}
+                        0\text{ si $x<0$}\\
+                        2(1-x)x = 2x-x^2\text{ si $0\leq x\leq 1$}\\
+                        1 \text{ si $x>1$}
+                    \end{cases}
+                \end{equation}
+                On peut utiliser le script suivant pour calculer les valeurs par la méthode inverse:
+                \inputminted{python}{codes/exercice_inverse_1.py}
 
     \section{Simulation Monte Carlo}
+        Les méthodes probabilistes et les simulations de Monte Carlo constituent des outils essentiels en informatique, offrant des solutions efficaces à des problèmes complexes souvent inaccessibles par des approches analytiques classiques. Leur champ d’application est vaste, couvrant notamment la physique statistique, les mathématiques financières, la mécanique quantique, l’apprentissage automatique ou encore la biologie.
+
+        Le cœur de la méthode de Monte Carlo repose sur l’échantillonnage aléatoire pour obtenir des approximations numériques. Plutôt que de chercher une solution exacte par le biais de formules analytiques, ces techniques s’appuient sur la loi des grands nombres pour estimer les résultats via des simulations répétées. Cette approche s’avère particulièrement utile face à des espaces de grande dimension, des géométries complexes ou des systèmes comportant de nombreux degrés de liberté.
+        
+        Un exemple simple permet d’illustrer ce principe: imaginons que vous souhaitiez estimer la surface d’un lac dont la forme est irrégulière et difficile à modéliser mathématiquement. Vous l’entourez alors d’un carré dont les dimensions sont connues avec précision. En lançant aléatoirement un grand nombre de pierres dans cette zone à l’aide d’une catapulte, vous pouvez observer la proportion de pierres qui tombent dans le lac par rapport au total. Cette proportion est approximativement égale au rapport entre la surface du lac et celle du carré. Plus le nombre de lancers est élevé, plus l’estimation gagne en précision. Ce procédé illustre le fonctionnement de l’intégration par Monte Carlo.
+        
         \subsection{Exemple classique}
             \subsubsection{Estimation d'une intégrale définie}
+                Tracer une fonction sur un plan n'est pas une tâche difficile. En effet, il suffit d'en calculer la valeur en tous les points du plan. En déterminer l'intégrale, cependant, peut parfois, d'un point de vue analytique, être une tâche plus ardue.
+                
+                Rappelez-vous, cependant, que la définition d'une intégrale (définie) est formellement l'aire de la surface entre la fonction et l'abscisse. Imaginez maintenant: vous délimitez une certaine surface d'intérêt pour la fonction que vous étudiez, dont vous connaissez la surface (par exemple, un rectangle), autour du tracé de la fonction. Vous échantillonnez aléatoirement des points sur cette surface. Si le nombre de points est suffisamment grand, la proportion de points se trouvant sous la courbe de la fonction correspond à la proportion de l'aire sous cette courbe par rapport à l'aire du rectangle d'échantillonnage. 
 
-        \subsection{Étude statistique d'un système dynamique stochastique}
+                Le code suivant utilise cette méthode pour déterminer la valeur de l'intégrale de la fonction $f(x) = x^2$ entre $0$ et $1$. La figure \ref{fig:montecarlo_integral} montre les points échantillonnés, classés selon leur position par rapport à la courbe de la fonction.
+                \inputminted{python}{codes/montecarlo_integral.py}
+                \begin{figure}[ht!]
+                    \centering
+                    \includegraphics[width=0.7\textwidth]{images/montecarlo_integral.jpg}
+                    \caption{Simulation Monte Carlo pour estimer la valeur de l'intégrale de $f(x)=x^2$ sur $[0, 1]$}
+                    \label{fig:montecarlo_integral}
+                \end{figure}
     
     \section{Exercices}
+        \subsubsection{Exercice 1: Estimation de la valeur de $\pi$}
+            Sachant que l'aire d'un cercle de rayon $r$ est donnée par la formule $\pi r^2$, et que son bord correspond aux points qui satisfont l'équation $x^2+y^2 = r$, estimez, à l'aide d'une simulation Monte Carlo, la valeur de $\pi$.
+
+             La solution est donnée par le code suivant, dont le résultat est donné dans la figure \ref{fig:montecarlo_pi}.
+                \inputminted{python}{codes/montecarlo_pi.py}
+                \begin{figure}[!ht]
+                    \centering
+                    \includegraphics[width=0.7\textwidth]{images/montecarlo_pi.jpg}
+                    \caption{Simulation Monte Carlo pour estimer la valeur de $\pi$}
+                    \label{fig:montecarlo_pi}
+                \end{figure}
+
+        \subsubsection{Exercice 2: Estimation d'un point d'équilibre}
+            Étant donné le système suivant:
+            \begin{equation*}
+                \begin{cases}
+                    \dot{x}_1(t) = x_2(t)\\
+                    \dot{x}_2(t) = -x_1(t) - x_2(t)
+                \end{cases}
+            \end{equation*}
+            Étudiez, par Monte Carlo, la position du point d'équilibre du système. Pour ce faire, indiquez la position moyenne et la variance de la position après un temps arbitraire d'une grande quantité de conditions initiales aléatoires.
+            
+            La solution est donnée par le code suivant.
+            \inputminted{python}{codes/montecarlo_point_d_equilibre.py}
+
+        \subsubsection{Exercice 3: Estimation de la probabilité d'une position}
+            Étant donné le système suivant:
+            \begin{equation*}
+                \begin{cases}
+                    \dot{x}_1(t) = -x_2(t)\\
+                    \dot{x}_2(t) = -x_1(t)
+                \end{cases}
+            \end{equation*}
+            Soit un ensemble de conditions initiales $(x_1(0), x_2(0))$. 
+            Étudiez, par Monte Carlo, après un temps arbitraire, la probabilité que la particule s'éloigne du cercle de rayon $x_1(0)^2 + x_2(0)^2$ d'au plus $10^{-3}$. Comment pouvez-vous expliquer le résultat grâce au portrait de phases de ce système ?
+            
+            La solution est donnée par le code suivant.
+            \inputminted{python}{codes/montecarlo_trajectoires_cercle.py}
+
+            Changez le seuil de tolérance pour $10^{-9}$. Les résultats tiennent-ils toujours? Pourquoi?
